@@ -39,10 +39,10 @@ export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: Market
 
   return (
     <>
-      <Card className="border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all">
+      <Card className="border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all h-full">
         <CardHeader className="space-y-3">
           <div className="flex items-start justify-between">
-            <h3 className="text-lg font-heading font-bold flex-1">{market.question}</h3>
+            <h3 className="text-xl font-heading font-bold flex-1 leading-tight">{market.question}</h3>
             <StatusBadge status={market.status} />
           </div>
 
@@ -57,23 +57,35 @@ export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: Market
         </CardHeader>
 
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-2 text-sm">
-            <div>
-              <span className="font-bold">TVL:</span>{" "}
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="bg-secondary-background border-2 border-black p-3 rounded">
+              <div className="font-bold text-xs mb-1">TVL</div>
               <FlowAmount amount={market.totalTVL} />
             </div>
-            <div>
-              <span className="font-bold">Rate:</span>{" "}
+            <div className="bg-secondary-background border-2 border-black p-3 rounded">
+              <div className="font-bold text-xs mb-1">Rate</div>
               <span className="font-mono font-bold">{market.currentExchangeRate.toFixed(2)}×</span>
             </div>
-            <div className="col-span-2">
-              <span className="font-bold">Deadline:</span>{" "}
-              <span>{formatDate(market.bettingDeadline)}</span>
+          </div>
+
+          <div className="bg-secondary-background border-2 border-black p-3 rounded space-y-2 text-sm">
+            <div className="font-bold mb-2">Detail Pasar</div>
+            <div className="flex justify-between">
+              <span>Total Yes:</span>
+              <span className="font-mono font-bold">{market.yesOdds}%</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Total No:</span>
+              <span className="font-mono font-bold">{market.noOdds}%</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Deadline:</span>
+              <span className="text-xs">{formatDate(market.bettingDeadline)}</span>
             </div>
           </div>
 
           {hasPosition && (
-            <div className="bg-[#FACC00] text-black border-2 border-black px-3 py-1 rounded-full font-bold text-center">
+            <div className="bg-[#FACC00] text-black border-2 border-black px-3 py-2 rounded-full font-bold text-center">
               Posisi Aktif
             </div>
           )}
@@ -81,7 +93,7 @@ export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: Market
           {canBet && (
             <Button
               onClick={() => setIsDialogOpen(true)}
-              className="w-full bg-[#05E17A] text-black border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
+              className="w-full bg-[#05E17A] text-black border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all py-6 text-lg"
             >
               Place Bet
             </Button>
@@ -92,7 +104,7 @@ export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: Market
           )}
 
           {!isConnected && (
-            <div className="text-center text-sm text-gray-500">
+            <div className="text-center text-sm text-gray-500 border-2 border-dashed border-gray-300 p-3 rounded">
               Connect wallet untuk memasang bet
             </div>
           )}

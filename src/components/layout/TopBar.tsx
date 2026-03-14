@@ -3,7 +3,12 @@
 import { useWallet } from "@/context/WalletContext"
 import { Button } from "@/components/ui/button"
 
-export function TopBar() {
+interface TopBarProps {
+  activeTab: string
+  onTabChange: (tab: string) => void
+}
+
+export function TopBar({ activeTab, onTabChange }: TopBarProps) {
   const { isConnected, address, connect, disconnect } = useWallet()
 
   return (
@@ -13,6 +18,27 @@ export function TopBar() {
           <div className="w-8 h-8 bg-main rounded border-2 border-black"></div>
           <h1 className="text-2xl font-heading font-bold">PeliFi</h1>
         </div>
+
+        <nav className="flex space-x-2">
+          <Button
+            onClick={() => onTabChange("profile")}
+            variant={activeTab === "profile" ? "default" : "outline"}
+            className={`border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all ${
+              activeTab === "profile" ? "bg-main text-main-foreground" : ""
+            }`}
+          >
+            Profile
+          </Button>
+          <Button
+            onClick={() => onTabChange("market")}
+            variant={activeTab === "market" ? "default" : "outline"}
+            className={`border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all ${
+              activeTab === "market" ? "bg-main text-main-foreground" : ""
+            }`}
+          >
+            Market
+          </Button>
+        </nav>
 
         <div className="flex items-center space-x-4">
           {isConnected ? (
