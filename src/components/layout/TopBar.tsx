@@ -13,7 +13,7 @@ export function TopBar({ activeTab, onTabChange }: TopBarProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-2 border-black bg-secondary-background shadow-shadow">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="max-w-[80%] mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-main rounded border-2 border-black"></div>
           <h1 className="text-2xl font-heading font-bold">PeliFi</h1>

@@ -43,8 +43,9 @@ export default function AppPage() {
 
       <main className="container mx-auto px-4 py-8">
         {activeTab === "market" && (
-          <Tabs value={marketSubTab} onValueChange={(v) => setMarketSubTab(v as MarketStatus | "All")} className="w-full">
-            <TabsList className="grid w-full max-w-2xl grid-cols-4 border-2 border-black shadow-shadow mx-auto">
+          <div className="max-w-[80%] mx-auto">
+            <Tabs value={marketSubTab} onValueChange={(v) => setMarketSubTab(v as MarketStatus | "All")} className="w-full">
+              <TabsList className="grid w-full max-w-2xl grid-cols-4 border-2 border-black shadow-shadow mx-auto">
                 <TabsTrigger
                   value="All"
                   className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
@@ -107,10 +108,11 @@ export default function AppPage() {
                 />
               </TabsContent>
             </Tabs>
+          </div>
         )}
 
         {activeTab === "profile" && (
-          <div className="space-y-6">
+          <div className="max-w-[80%] mx-auto space-y-6">
             {!isConnected || positions.length === 0 ? (
               <EmptyProfile onNavigateToMarket={handleNavigateToMarket} />
             ) : (
