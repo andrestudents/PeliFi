@@ -30,7 +30,7 @@ export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: Market
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "Open-ended"
-    return new Date(dateString).toLocaleDateString("id-ID", {
+    return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -69,7 +69,7 @@ export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: Market
           </div>
 
           <div className="bg-secondary-background border-2 border-black p-3 rounded space-y-2 text-sm">
-            <div className="font-bold mb-2">Detail Pasar</div>
+            <div className="font-bold mb-2">Market Details</div>
             <div className="flex justify-between">
               <span>Total Yes:</span>
               <span className="font-mono font-bold">{market.yesOdds}%</span>
@@ -86,7 +86,7 @@ export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: Market
 
           {hasPosition && (
             <div className="bg-[#FACC00] text-black border-2 border-black px-3 py-2 rounded-full font-bold text-center">
-              Posisi Aktif
+              Active Position
             </div>
           )}
 
@@ -105,7 +105,7 @@ export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: Market
 
           {!isConnected && (
             <div className="text-center text-sm text-gray-500 border-2 border-dashed border-gray-300 p-3 rounded">
-              Connect wallet untuk memasang bet
+              Connect wallet to place bet
             </div>
           )}
         </CardContent>

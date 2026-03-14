@@ -18,7 +18,7 @@ export function ClaimButton({ marketId, onClaim }: ClaimButtonProps) {
     // Simulate blockchain transaction
     setTimeout(() => {
       onClaim(marketId)
-      toast.success("Payout berhasil diklaim!")
+      toast.success("Payout successfully claimed!")
       setIsLoading(false)
     }, 1500)
   }

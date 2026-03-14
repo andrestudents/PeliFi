@@ -37,11 +37,11 @@ export function PositionCard({ position, market, onEarlyExit, onClaim }: Positio
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-2 text-sm">
             <div>
-              <span className="font-bold">Modal:</span>{" "}
+              <span className="font-bold">Principal:</span>{" "}
               <FlowAmount amount={position.principal_FLOW} />
             </div>
             <div>
-              <span className="font-bold">Nilai Saat Ini:</span>{" "}
+              <span className="font-bold">Current Value:</span>{" "}
               <FlowAmount amount={position.currentFLOWValue} />
             </div>
             <div>
@@ -55,13 +55,13 @@ export function PositionCard({ position, market, onEarlyExit, onClaim }: Positio
           </div>
 
           <div className="bg-secondary-background border-2 border-black p-3 rounded space-y-1 text-sm">
-            <div className="font-bold mb-2">Estimasi:</div>
+            <div className="font-bold mb-2">Estimates:</div>
             <div className="flex justify-between">
-              <span>Jika Menang:</span>
+              <span>If Win:</span>
               <FlowAmount amount={position.estimatedPayoutIfWin} />
             </div>
             <div className="flex justify-between">
-              <span>Jika Kalah:</span>
+              <span>If Lose:</span>
               <FlowAmount amount={position.estimatedPayoutIfLose} />
             </div>
             <div className="flex justify-between">

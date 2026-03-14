@@ -15,7 +15,7 @@ export function PortfolioSummary({ positions }: PortfolioSummaryProps) {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
       <Card className="border-2 border-black shadow-shadow">
         <CardContent className="p-6 text-center">
-          <div className="text-sm font-bold mb-1">Total Nilai</div>
+          <div className="text-sm font-bold mb-1">Total Value</div>
           <div className="text-2xl font-heading font-bold">
             <FlowAmount amount={totalValue} />
           </div>
@@ -24,7 +24,7 @@ export function PortfolioSummary({ positions }: PortfolioSummaryProps) {
 
       <Card className="border-2 border-black shadow-shadow">
         <CardContent className="p-6 text-center">
-          <div className="text-sm font-bold mb-1">Market Diikuti</div>
+          <div className="text-sm font-bold mb-1">Markets Followed</div>
           <div className="text-2xl font-heading font-bold">{marketCount}</div>
         </CardContent>
       </Card>

@@ -35,7 +35,7 @@ export function PlaceBetDialog({ market, open, onOpenChange, onPlaceBet }: Place
 
   const handlePlaceBet = () => {
     if (amountNum < 1) {
-      toast.error("Minimal bet adalah 1 FLOW")
+      toast.error("Minimum bet is 1 FLOW")
       return
     }
 
@@ -60,7 +60,7 @@ export function PlaceBetDialog({ market, open, onOpenChange, onPlaceBet }: Place
       }
 
       onPlaceBet(newPosition)
-      toast.success("Bet berhasil dipasang!")
+      toast.success("Bet successfully placed!")
       setIsLoading(false)
       onOpenChange(false)
       setAmount("100")
@@ -78,7 +78,7 @@ export function PlaceBetDialog({ market, open, onOpenChange, onPlaceBet }: Place
         <div className="space-y-6">
           {/* Side Selection */}
           <div>
-            <label className="block text-sm font-bold mb-2">Pilih Sisi</label>
+            <label className="block text-sm font-bold mb-2">Select Side</label>
             <div className="flex gap-2">
               <Button
                 onClick={() => setSelectedSide("YES")}
@@ -105,7 +105,7 @@ export function PlaceBetDialog({ market, open, onOpenChange, onPlaceBet }: Place
 
           {/* Amount Input */}
           <div>
-            <label className="block text-sm font-bold mb-2">Jumlah FLOW</label>
+            <label className="block text-sm font-bold mb-2">FLOW Amount</label>
             <Input
               type="number"
               value={amount}
@@ -119,13 +119,13 @@ export function PlaceBetDialog({ market, open, onOpenChange, onPlaceBet }: Place
 
           {/* Estimates */}
           <div className="bg-secondary-background border-2 border-black p-4 rounded space-y-2">
-            <h3 className="font-bold mb-2">Estimasi Payout:</h3>
+            <h3 className="font-bold mb-2">Estimated Payout:</h3>
             <div className="flex justify-between">
-              <span>Jika Menang:</span>
+              <span>If Win:</span>
               <FlowAmount amount={estimates.win} />
             </div>
             <div className="flex justify-between">
-              <span>Jika Kalah:</span>
+              <span>If Lose:</span>
               <FlowAmount amount={estimates.lose} />
             </div>
             <div className="flex justify-between text-sm">

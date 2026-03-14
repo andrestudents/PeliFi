@@ -35,7 +35,7 @@ export function EarlyExitDialog({
     // Simulate blockchain transaction
     setTimeout(() => {
       onConfirm(marketId)
-      toast.success(`${estimatedReturn.toFixed(2)} FLOW dikembalikan`)
+      toast.success(`${estimatedReturn.toFixed(2)} FLOW returned`)
       setIsLoading(false)
       onOpenChange(false)
     }, 1500)
@@ -47,7 +47,7 @@ export function EarlyExitDialog({
         <DialogHeader>
           <DialogTitle className="text-xl font-heading">Early Exit</DialogTitle>
           <DialogDescription>
-            Kamu akan menerima ~<FlowAmount amount={estimatedReturn} />. 50% penalti dikenakan.
+            You will receive ~<FlowAmount amount={estimatedReturn} />. 50% penalty applies.
           </DialogDescription>
         </DialogHeader>
 
