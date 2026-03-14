@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { PlaceBetDialog } from "./PlaceBetDialog"
 import { ClaimButton } from "./ClaimButton"
-import { useWallet } from "@/context/WalletContext"
 
 interface MarketCardProps {
   market: Market
@@ -21,11 +20,10 @@ interface MarketCardProps {
 }
 
 export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: MarketCardProps) {
-  const { isConnected } = useWallet()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const hasPosition = !!userPosition
-  const canBet = market.status === "Open" && isConnected && !hasPosition
+  const canBet = market.status === "Open" && !hasPosition
   const canClaim = market.status === "Resolved" && hasPosition
 
   const formatDate = (dateString: string | null) => {
@@ -101,12 +99,6 @@ export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: Market
 
           {canClaim && (
             <ClaimButton marketId={market.id} onClaim={onClaim} />
-          )}
-
-          {!isConnected && (
-            <div className="text-center text-sm text-gray-500 border-2 border-dashed border-gray-300 p-3 rounded">
-              Connect wallet to place bet
-            </div>
           )}
         </CardContent>
       </Card>

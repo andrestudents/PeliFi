@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { TopBar } from "@/components/layout/TopBar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
 import { MarketFilter } from "@/features/market/components/MarketFilter"
 import { MarketGrid } from "@/features/market/components/MarketGrid"
 import { PortfolioSummary } from "@/features/profile/components/PortfolioSummary"
@@ -13,11 +14,10 @@ import { usePositions } from "@/features/profile/hooks/usePositions"
 import { useWallet } from "@/context/WalletContext"
 import { UserPosition } from "@/features/profile/types"
 import { MarketStatus } from "@/features/market/types"
-
 export default function AppPage() {
   const { markets, filter, setFilter } = useMarkets()
   const { positions, addPosition, removePosition } = usePositions()
-  const { isConnected } = useWallet()
+  const { isConnected, connect } = useWallet()
   const [activeTab, setActiveTab] = useState("profile")
   const [marketSubTab, setMarketSubTab] = useState<MarketStatus | "All">("All")
 
@@ -44,70 +44,83 @@ export default function AppPage() {
       <main className="container mx-auto px-4 py-8">
         {activeTab === "market" && (
           <div className="max-w-[80%] mx-auto">
-            <Tabs value={marketSubTab} onValueChange={(v) => setMarketSubTab(v as MarketStatus | "All")} className="w-full">
-              <TabsList className="grid w-full max-w-2xl grid-cols-4 border-2 border-black shadow-shadow mx-auto">
-                <TabsTrigger
-                  value="All"
-                  className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
+            {!isConnected ? (
+              <div className="border-2 border-black shadow-shadow p-12 text-center space-y-6">
+                <h2 className="text-2xl font-heading font-bold">Connect Wallet</h2>
+                <p className="text-lg">Connect your wallet to view markets</p>
+                <Button
+                  onClick={connect}
+                  className="bg-main text-main-foreground border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
                 >
-                  All
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Open"
-                  className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
-                >
-                  Open
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Resolved"
-                  className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
-                >
-                  Resolved
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Cancelled"
-                  className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
-                >
-                  Cancelled
-                </TabsTrigger>
-              </TabsList>
+                  Connect Wallet
+                </Button>
+              </div>
+            ) : (
+              <Tabs value={marketSubTab} onValueChange={(v) => setMarketSubTab(v as MarketStatus | "All")} className="w-full">
+                <TabsList className="grid w-full max-w-2xl grid-cols-4 border-2 border-black shadow-shadow mx-auto">
+                  <TabsTrigger
+                    value="All"
+                    className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
+                  >
+                    All
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="Open"
+                    className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
+                  >
+                    Open
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="Resolved"
+                    className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
+                  >
+                    Resolved
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="Cancelled"
+                    className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
+                  >
+                    Cancelled
+                  </TabsTrigger>
+                </TabsList>
 
-              <TabsContent value="All" className="mt-6">
-                <MarketGrid
-                  markets={markets}
-                  userPositions={positions}
-                  onPlaceBet={handlePlaceBet}
-                  onClaim={handleClaim}
-                />
-              </TabsContent>
+                <TabsContent value="All" className="mt-6">
+                  <MarketGrid
+                    markets={markets}
+                    userPositions={positions}
+                    onPlaceBet={handlePlaceBet}
+                    onClaim={handleClaim}
+                  />
+                </TabsContent>
 
-              <TabsContent value="Open" className="mt-6">
-                <MarketGrid
-                  markets={markets.filter(m => m.status === "Open")}
-                  userPositions={positions}
-                  onPlaceBet={handlePlaceBet}
-                  onClaim={handleClaim}
-                />
-              </TabsContent>
+                <TabsContent value="Open" className="mt-6">
+                  <MarketGrid
+                    markets={markets.filter(m => m.status === "Open")}
+                    userPositions={positions}
+                    onPlaceBet={handlePlaceBet}
+                    onClaim={handleClaim}
+                  />
+                </TabsContent>
 
-              <TabsContent value="Resolved" className="mt-6">
-                <MarketGrid
-                  markets={markets.filter(m => m.status === "Resolved")}
-                  userPositions={positions}
-                  onPlaceBet={handlePlaceBet}
-                  onClaim={handleClaim}
-                />
-              </TabsContent>
+                <TabsContent value="Resolved" className="mt-6">
+                  <MarketGrid
+                    markets={markets.filter(m => m.status === "Resolved")}
+                    userPositions={positions}
+                    onPlaceBet={handlePlaceBet}
+                    onClaim={handleClaim}
+                  />
+                </TabsContent>
 
-              <TabsContent value="Cancelled" className="mt-6">
-                <MarketGrid
-                  markets={markets.filter(m => m.status === "Cancelled")}
-                  userPositions={positions}
-                  onPlaceBet={handlePlaceBet}
-                  onClaim={handleClaim}
-                />
-              </TabsContent>
-            </Tabs>
+                <TabsContent value="Cancelled" className="mt-6">
+                  <MarketGrid
+                    markets={markets.filter(m => m.status === "Cancelled")}
+                    userPositions={positions}
+                    onPlaceBet={handlePlaceBet}
+                    onClaim={handleClaim}
+                  />
+                </TabsContent>
+              </Tabs>
+            )}
           </div>
         )}
 
