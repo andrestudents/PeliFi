@@ -3,7 +3,7 @@ import { Market } from "@/features/market/types"
 export const MOCK_MARKETS: Market[] = [
   {
     id: 0,
-    question: "Apakah BTC mencapai $500k USD pada 2030?",
+    question: "Will BTC reach $500k USD by 2030?",
     status: "Open",
     totalYesPrincipal: 1200,
     totalNoPrincipal: 800,
@@ -16,7 +16,7 @@ export const MOCK_MARKETS: Market[] = [
   },
   {
     id: 1,
-    question: "Apakah Donald Trump memenangkan pilpres 2028?",
+    question: "Will Donald Trump win the 2028 presidential election?",
     status: "Open",
     totalYesPrincipal: 500,
     totalNoPrincipal: 1500,
@@ -29,7 +29,7 @@ export const MOCK_MARKETS: Market[] = [
   },
   {
     id: 2,
-    question: "Apakah ETH flippening BTC sebelum 2026?",
+    question: "Will ETH flip BTC before 2026?",
     status: "Resolved",
     totalYesPrincipal: 300,
     totalNoPrincipal: 700,
@@ -42,10 +42,10 @@ export const MOCK_MARKETS: Market[] = [
   },
   {
     id: 3,
-    question: "Apakah Argentina juara Piala Dunia 2026?",
+    question: "Will Argentina win the 2026 World Cup?",
     status: "Open",
     totalYesPrincipal: 900,
-    totalNoPrincipal:  600,
+    totalNoPrincipal: 600,
     totalTVL: 1500,
     currentExchangeRate: 1.05,
     bettingDeadline: "2026-07-15",
@@ -55,7 +55,7 @@ export const MOCK_MARKETS: Market[] = [
   },
   {
     id: 4,
-    question: "Apakah Flow blockchain masuk top 10 market cap 2025?",
+    question: "Will the Flow blockchain enter the top 10 by market cap in 2025?",
     status: "Resolved",
     totalYesPrincipal: 400,
     totalNoPrincipal: 100,
@@ -68,7 +68,7 @@ export const MOCK_MARKETS: Market[] = [
   },
   {
     id: 5,
-    question: "Apakah Apple merilis AR glasses sebelum 2027?",
+    question: "Will Apple release AR glasses before 2027?",
     status: "Cancelled",
     totalYesPrincipal: 200,
     totalNoPrincipal: 200,

@@ -103,9 +103,17 @@ export function PlaceBetDialog({ market, open, onOpenChange, onPlaceBet }: Place
             </div>
           </div>
 
+          {/* Balance Display */}
+          <div className="bg-secondary-background border-2 border-black p-3 rounded">
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-bold">Your Balance:</span>
+              <FlowAmount amount={10000} />
+            </div>
+          </div>
+
           {/* Amount Input */}
           <div>
-            <label className="block text-sm font-bold mb-2">FLOW Amount</label>
+            <label className="block text-sm font-bold mb-2">Input Amount</label>
             <Input
               type="number"
               value={amount}
@@ -121,15 +129,11 @@ export function PlaceBetDialog({ market, open, onOpenChange, onPlaceBet }: Place
           <div className="bg-secondary-background border-2 border-black p-4 rounded space-y-2">
             <h3 className="font-bold mb-2">Estimated Payout:</h3>
             <div className="flex justify-between">
-              <span>If Win:</span>
-              <FlowAmount amount={estimates.win} />
-            </div>
-            <div className="flex justify-between">
               <span>If Lose:</span>
               <FlowAmount amount={estimates.lose} />
             </div>
-            <div className="flex justify-between text-sm">
-              <span>Early Exit:</span>
+            <div className="flex justify-between text-red-600 font-bold bg-red-50 border border-red-300 p-2 rounded">
+              <span>⚠️ Early Exit:</span>
               <FlowAmount amount={estimates.earlyExit} />
             </div>
           </div>

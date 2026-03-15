@@ -37,7 +37,7 @@ export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: Market
 
   return (
     <>
-      <Card className="border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all h-full">
+      <Card className="border-2 border-black shadow-shadow shadow-lg hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all h-full">
         <CardHeader className="space-y-3">
           <div className="flex items-start justify-between">
             <h3 className="text-xl font-heading font-bold flex-1 leading-tight">{market.question}</h3>
