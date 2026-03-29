@@ -19,23 +19,23 @@ import { FlowAmount } from "@/components/shared/FlowAmount"
 import { estimatePayout } from "@/lib/mock-utils"
 
 interface PlaceBetDialogProps {
-  market: Market
+  pool: Market
   open: boolean
   onOpenChange: (open: boolean) => void
   onPlaceBet: (position: UserPosition) => void
 }
 
-export function PlaceBetDialog({ market, open, onOpenChange, onPlaceBet }: PlaceBetDialogProps) {
+export function PlaceBetDialog({ pool, open, onOpenChange, onPlaceBet }: PlaceBetDialogProps) {
   const [selectedSide, setSelectedSide] = useState<Side>("YES")
   const [amount, setAmount] = useState<string>("100")
   const [isLoading, setIsLoading] = useState(false)
 
   const amountNum = parseFloat(amount) || 0
-  const estimates = estimatePayout(amountNum, selectedSide, market, market.currentExchangeRate)
+  const estimates = estimatePayout(amountNum, selectedSide, pool, pool.currentExchangeRate)
 
   const handlePlaceBet = () => {
-    if (amountNum < 1) {
-      toast.error("Minimum bet is 1 FLOW")
+    if (amountNum < 100) {
+      toast.error("Minimum deposit is 100 FLOW")
       return
     }
 
@@ -44,11 +44,11 @@ export function PlaceBetDialog({ market, open, onOpenChange, onPlaceBet }: Place
     // Simulate blockchain transaction
     setTimeout(() => {
       const newPosition: UserPosition = {
-        marketId: market.id,
+        poolId: pool.id,
         side: selectedSide,
         principal_FLOW: amountNum,
-        entryExchangeRate: market.currentExchangeRate,
-        currentExchangeRate: market.currentExchangeRate,
+        entryExchangeRate: pool.currentExchangeRate,
+        currentExchangeRate: pool.currentExchangeRate,
         currentFLOWValue: amountNum,
         userYieldSoFar: 0,
         effectiveYieldRate: 0,
@@ -56,11 +56,11 @@ export function PlaceBetDialog({ market, open, onOpenChange, onPlaceBet }: Place
         estimatedPayoutIfLose: estimates.lose,
         estimatedWinBonus: estimates.win - amountNum,
         estimatedEarlyExit: estimates.earlyExit,
-        marketStatus: market.status,
+        poolStatus: pool.status,
       }
 
       onPlaceBet(newPosition)
-      toast.success("Bet successfully placed!")
+      toast.success("Successfully joined pool!")
       setIsLoading(false)
       onOpenChange(false)
       setAmount("100")
@@ -71,8 +71,8 @@ export function PlaceBetDialog({ market, open, onOpenChange, onPlaceBet }: Place
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="border-2 border-black shadow-shadow">
         <DialogHeader>
-          <DialogTitle className="text-xl font-heading">Place Bet</DialogTitle>
-          <DialogDescription className="font-bold text-lg">{market.question}</DialogDescription>
+          <DialogTitle className="text-xl font-heading">Join Pool</DialogTitle>
+          <DialogDescription className="font-bold text-lg">{pool.question}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
@@ -153,7 +153,7 @@ export function PlaceBetDialog({ market, open, onOpenChange, onPlaceBet }: Place
               className="flex-1 bg-main text-main-foreground border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
               disabled={isLoading}
             >
-              {isLoading ? "Processing..." : "Confirm Bet"}
+              {isLoading ? "Processing..." : "Join Pool"}
             </Button>
           </div>
         </div>

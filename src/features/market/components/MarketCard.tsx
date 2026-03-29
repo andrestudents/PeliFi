@@ -13,18 +13,18 @@ import { PlaceBetDialog } from "./PlaceBetDialog"
 import { ClaimButton } from "./ClaimButton"
 
 interface MarketCardProps {
-  market: Market
+  pool: Market
   userPosition?: UserPosition
   onPlaceBet: (position: UserPosition) => void
-  onClaim: (marketId: number) => void
+  onClaim: (poolId: number) => void
 }
 
-export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: MarketCardProps) {
+export function MarketCard({ pool, userPosition, onPlaceBet, onClaim }: MarketCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const hasPosition = !!userPosition
-  const canBet = market.status === "Open" && !hasPosition
-  const canClaim = market.status === "Resolved" && hasPosition
+  const canBet = pool.status === "Open" && !hasPosition
+  const canClaim = pool.status === "Resolved" && hasPosition
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "Open-ended"
@@ -40,16 +40,16 @@ export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: Market
       <Card className="border-2 border-black shadow-shadow shadow-lg hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all h-full">
         <CardHeader className="space-y-3">
           <div className="flex items-start justify-between">
-            <h3 className="text-xl font-heading font-bold flex-1 leading-tight">{market.question}</h3>
-            <StatusBadge status={market.status} />
+            <h3 className="text-xl font-heading font-bold flex-1 leading-tight">{pool.question}</h3>
+            <StatusBadge status={pool.status} />
           </div>
 
-          <OddsBar yesPercentage={market.yesOdds} noPercentage={market.noOdds} />
+          <OddsBar yesPercentage={pool.yesOdds} noPercentage={pool.noOdds} />
 
-          {market.status === "Resolved" && market.winningSide && (
+          {pool.status === "Resolved" && pool.winningSide && (
             <div className="text-center">
               <span className="text-sm font-bold">Winner: </span>
-              <SideBadge side={market.winningSide} />
+              <SideBadge side={pool.winningSide} />
             </div>
           )}
         </CardHeader>
@@ -58,27 +58,27 @@ export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: Market
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div className="bg-secondary-background border-2 border-black p-3 rounded">
               <div className="font-bold text-xs mb-1">TVL</div>
-              <FlowAmount amount={market.totalTVL} />
+              <FlowAmount amount={pool.totalTVL} />
             </div>
             <div className="bg-secondary-background border-2 border-black p-3 rounded">
               <div className="font-bold text-xs mb-1">Rate</div>
-              <span className="font-mono font-bold">{market.currentExchangeRate.toFixed(2)}×</span>
+              <span className="font-mono font-bold">{pool.currentExchangeRate.toFixed(2)}×</span>
             </div>
           </div>
 
           <div className="bg-secondary-background border-2 border-black p-3 rounded space-y-2 text-sm">
-            <div className="font-bold mb-2">Market Details</div>
+            <div className="font-bold mb-2">Pool Details</div>
             <div className="flex justify-between">
               <span>Total Yes:</span>
-              <span className="font-mono font-bold">{market.yesOdds}%</span>
+              <span className="font-mono font-bold">{pool.yesOdds}%</span>
             </div>
             <div className="flex justify-between">
               <span>Total No:</span>
-              <span className="font-mono font-bold">{market.noOdds}%</span>
+              <span className="font-mono font-bold">{pool.noOdds}%</span>
             </div>
             <div className="flex justify-between">
               <span>Deadline:</span>
-              <span className="text-xs">{formatDate(market.bettingDeadline)}</span>
+              <span className="text-xs">{formatDate(pool.bettingDeadline)}</span>
             </div>
           </div>
 
@@ -93,18 +93,18 @@ export function MarketCard({ market, userPosition, onPlaceBet, onClaim }: Market
               onClick={() => setIsDialogOpen(true)}
               className="w-full bg-[#05E17A] text-black border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all py-6 text-lg"
             >
-              Place Bet
+              Join Pool
             </Button>
           )}
 
           {canClaim && (
-            <ClaimButton marketId={market.id} onClaim={onClaim} />
+            <ClaimButton poolId={pool.id} onClaim={onClaim} />
           )}
         </CardContent>
       </Card>
 
       <PlaceBetDialog
-        market={market}
+        pool={pool}
         open={isDialogOpen}
         onOpenChange={setIsDialogOpen}
         onPlaceBet={onPlaceBet}

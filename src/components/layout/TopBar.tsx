@@ -24,22 +24,20 @@ export function TopBar({ activeTab, onTabChange }: TopBarProps) {
           <Button
             onClick={() => onTabChange("profile")}
             variant={activeTab === "profile" ? "default" : "outline"}
-            className={`border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all flex items-center gap-2 ${
-              activeTab === "profile" ? "bg-main text-main-foreground" : ""
-            }`}
+            className={`border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all flex items-center gap-2 ${activeTab === "profile" ? "bg-main text-main-foreground" : ""
+              }`}
           >
             <User className="w-4 h-4" />
             Profile
           </Button>
           <Button
-            onClick={() => onTabChange("market")}
-            variant={activeTab === "market" ? "default" : "outline"}
-            className={`border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all flex items-center gap-2 ${
-              activeTab === "market" ? "bg-main text-main-foreground" : ""
-            }`}
+            onClick={() => onTabChange("pool")}
+            variant={activeTab === "pool" ? "default" : "outline"}
+            className={`border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all flex items-center gap-2 ${activeTab === "pool" ? "bg-main text-main-foreground" : ""
+              }`}
           >
             <TrendingUp className="w-4 h-4" />
-            Market
+            Pool
           </Button>
         </nav>
 
@@ -60,7 +58,7 @@ export function TopBar({ activeTab, onTabChange }: TopBarProps) {
               onClick={connect}
               className="border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
             >
-              Connect Wallet
+              Continue with Google
             </Button>
           )}
         </div>

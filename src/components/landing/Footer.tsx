@@ -29,7 +29,7 @@ export function Footer() {
 
         <div className="mt-8 pt-6 border-t border-background/20 text-center">
           <p className="font-base text-background/60 text-sm">
-            © 2026 PeliFi. Predict. Stake. Earn.
+            © 2026 PeliFi. No Loss. No Cheat. Just Luck.
           </p>
         </div>
       </div>

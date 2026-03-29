@@ -10,15 +10,15 @@ export interface PayoutEstimate {
 export function estimatePayout(
   amount: number,
   side: Side,
-  market: Market,
+  pool: Market,
   currentRate: number
 ): PayoutEstimate {
   // Calculate winner yield (yield from loser's side)
-  const totalWinnerPrincipal = side === "YES" ? market.totalYesPrincipal : market.totalNoPrincipal
-  const totalLoserPrincipal = side === "YES" ? market.totalNoPrincipal : market.totalYesPrincipal
+  const totalWinnerPrincipal = side === "YES" ? pool.totalYesPrincipal : pool.totalNoPrincipal
+  const totalLoserPrincipal = side === "YES" ? pool.totalNoPrincipal : pool.totalYesPrincipal
 
-  // Total yield in the market = (TVL * currentRate) - TVL
-  const totalYield = market.totalTVL * currentRate - market.totalTVL
+  // Total yield in the pool = (TVL * currentRate) - TVL
+  const totalYield = pool.totalTVL * currentRate - pool.totalTVL
 
   // Winner gets: their principal + their yield share + loser's yield share
   // Their yield share = (their principal / winner principal) * total yield

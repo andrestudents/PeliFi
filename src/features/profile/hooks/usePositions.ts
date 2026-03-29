@@ -11,8 +11,8 @@ export function usePositions() {
     setPositions((prev) => [...prev, position])
   }
 
-  const removePosition = (marketId: number) => {
-    setPositions((prev) => prev.filter((p) => p.marketId !== marketId))
+  const removePosition = (poolId: number) => {
+    setPositions((prev) => prev.filter((p) => p.marketId !== poolId))
   }
 
   return {

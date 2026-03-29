@@ -4,12 +4,12 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 
 const features = [
-  { title: "Yield While You Wait", desc: "Your funds don't sit idle — automatically generating yield throughout the event duration.", color: "bg-chart-1", icon: "📈" },
-  { title: "Global Predictions", desc: "Access prediction markets from around the world. Sports, politics, crypto, and more.", color: "bg-chart-3", icon: "🌍" },
-  { title: "Transparent & Secure", desc: "All transactions are on-chain. Audited smart contracts you can trust.", color: "bg-main", icon: "🔒" },
-  { title: "Community Driven", desc: "Create your own markets and define the rules together with the community.", color: "bg-chart-4", icon: "🤝" },
-  { title: "Instant Settlement", desc: "Claim your rewards immediately after events conclude. No waiting required.", color: "bg-chart-5", icon: "⚡" },
-  { title: "Mobile Ready", desc: "Access PeliFi from anywhere. Optimized for all devices.", color: "bg-chart-3", icon: "📱" },
+  { title: "No Loss Guarantee", desc: "Your principal is always safe. Even if you don't win, you get back your entire deposit.", color: "bg-chart-1", icon: "🛡️" },
+  { title: "Multiple Pool Types", desc: "Weekly (5 winners), Monthly (10 winners), or Yearly (15 winners) pools with varying prize sizes.", color: "bg-chart-3", icon: "🎲" },
+  { title: "Provably Fair", desc: "Winners selected through transparent, tamper-proof on-chain randomness. No cheating possible.", color: "bg-main", icon: "✓" },
+  { title: "Permissionless", desc: "Anyone can join. No gatekeeping, no restrictions. Just deposit and participate.", color: "bg-chart-4", icon: "🚪" },
+  { title: "Yield Generation", desc: "Your funds work for you, generating yield throughout the pool period automatically.", color: "bg-chart-5", icon: "📈" },
+  { title: "Easy Onboarding", desc: "Walletless login with email or Google. No complex wallet setup required.", color: "bg-chart-3", icon: "📱" },
 ]
 
 export function FeaturesSection() {

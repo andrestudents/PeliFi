@@ -15,15 +15,15 @@ import { FlowAmount } from "@/components/shared/FlowAmount"
 interface EarlyExitDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  marketId: number
+  poolId: number
   estimatedReturn: number
-  onConfirm: (marketId: number) => void
+  onConfirm: (poolId: number) => void
 }
 
 export function EarlyExitDialog({
   open,
   onOpenChange,
-  marketId,
+  poolId,
   estimatedReturn,
   onConfirm,
 }: EarlyExitDialogProps) {
@@ -34,7 +34,7 @@ export function EarlyExitDialog({
 
     // Simulate blockchain transaction
     setTimeout(() => {
-      onConfirm(marketId)
+      onConfirm(poolId)
       toast.success(`${estimatedReturn.toFixed(2)} FLOW returned`)
       setIsLoading(false)
       onOpenChange(false)

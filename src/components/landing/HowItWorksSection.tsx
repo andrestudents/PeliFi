@@ -4,10 +4,10 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 
 const steps = [
-  { number: "01", title: "Choose Market", desc: "Find global events you want to predict the outcome of.", color: "bg-chart-1" },
-  { number: "02", title: "Place Prediction", desc: "Vote YES or NO and stake your funds on your chosen position.", color: "bg-chart-3" },
-  { number: "03", title: "Earn Yield", desc: "Your funds work to generate yield while the event is ongoing.", color: "bg-main" },
-  { number: "04", title: "Claim Rewards", desc: "Correct prediction? Claim your rewards plus accumulated yield.", color: "bg-chart-4" },
+  { number: "01", title: "Join Pool", desc: "Choose your pool type — Weekly, Monthly, or Yearly. Each pool has max 100 participants.", color: "bg-chart-1" },
+  { number: "02", title: "Deposit Funds", desc: "Deposit minimum 100 tokens. Your principal stays safe and starts generating yield.", color: "bg-chart-3" },
+  { number: "03", title: "Wait & Earn", desc: "Your funds generate yield throughout the pool period. Everyone's yield grows together.", color: "bg-main" },
+  { number: "04", title: "Winner Takes All", desc: "Provably fair random winners share the yield prize pool. Everyone withdraws their principal.", color: "bg-chart-4" },
 ]
 
 export function HowItWorksSection() {

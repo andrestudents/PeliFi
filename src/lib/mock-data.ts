@@ -1,6 +1,6 @@
 import { Market } from "@/features/market/types"
 
-export const MOCK_MARKETS: Market[] = [
+export const MOCK_POOLS: Market[] = [
   {
     id: 0,
     question: "Will BTC reach $500k USD by 2030?",

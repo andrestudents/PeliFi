@@ -89,7 +89,7 @@ export function HeroSection() {
           transition={{ delay: 0.6 }}
           className="text-2xl md:text-3xl font-heading font-bold text-main"
         >
-          Predict. Stake. Earn.
+          No Loss. No Cheat. Just Luck.
         </motion.p>
 
         <motion.p
@@ -98,7 +98,7 @@ export function HeroSection() {
           transition={{ delay: 0.8 }}
           className="text-lg md:text-xl font-base max-w-2xl mx-auto"
         >
-          Place YES/NO predictions on global markets. Your funds work to generate yield while events are ongoing.
+          Join a lottery pool where your funds generate yield. Winners share the yield, losers get their principal back intact.
         </motion.p>
 
         <motion.div

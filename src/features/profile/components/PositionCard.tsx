@@ -13,12 +13,12 @@ import { ClaimButton } from "@/features/market/components/ClaimButton"
 
 interface PositionCardProps {
   position: UserPosition
-  market: Market
-  onEarlyExit: (marketId: number) => void
-  onClaim: (marketId: number) => void
+  pool: Market
+  onEarlyExit: (poolId: number) => void
+  onClaim: (poolId: number) => void
 }
 
-export function PositionCard({ position, market, onEarlyExit, onClaim }: PositionCardProps) {
+export function PositionCard({ position, pool, onEarlyExit, onClaim }: PositionCardProps) {
   const [isEarlyExitDialogOpen, setIsEarlyExitDialogOpen] = useState(false)
 
   return (
@@ -26,7 +26,7 @@ export function PositionCard({ position, market, onEarlyExit, onClaim }: Positio
       <Card className="border-2 border-black shadow-shadow">
         <CardHeader className="space-y-2">
           <div className="flex items-start justify-between">
-            <h3 className="text-lg font-heading font-bold flex-1">{market.question}</h3>
+            <h3 className="text-lg font-heading font-bold flex-1">{pool.question}</h3>
             <div className="flex gap-2">
               <SideBadge side={position.side} />
               <StatusBadge status={position.marketStatus} />
@@ -80,7 +80,7 @@ export function PositionCard({ position, market, onEarlyExit, onClaim }: Positio
           )}
 
           {position.marketStatus === "Resolved" && (
-            <ClaimButton marketId={position.marketId} onClaim={onClaim} />
+            <ClaimButton poolId={position.marketId} onClaim={onClaim} />
           )}
         </CardContent>
       </Card>
@@ -88,7 +88,7 @@ export function PositionCard({ position, market, onEarlyExit, onClaim }: Positio
       <EarlyExitDialog
         open={isEarlyExitDialogOpen}
         onOpenChange={setIsEarlyExitDialogOpen}
-        marketId={position.marketId}
+        poolId={position.marketId}
         estimatedReturn={position.estimatedEarlyExit}
         onConfirm={onEarlyExit}
       />

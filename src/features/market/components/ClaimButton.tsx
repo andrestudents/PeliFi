@@ -5,11 +5,11 @@ import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 
 interface ClaimButtonProps {
-  marketId: number
-  onClaim: (marketId: number) => void
+  poolId: number
+  onClaim: (poolId: number) => void
 }
 
-export function ClaimButton({ marketId, onClaim }: ClaimButtonProps) {
+export function ClaimButton({ poolId, onClaim }: ClaimButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleClaim = () => {
@@ -17,7 +17,7 @@ export function ClaimButton({ marketId, onClaim }: ClaimButtonProps) {
 
     // Simulate blockchain transaction
     setTimeout(() => {
-      onClaim(marketId)
+      onClaim(poolId)
       toast.success("Payout successfully claimed!")
       setIsLoading(false)
     }, 1500)

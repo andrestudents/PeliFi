@@ -9,7 +9,7 @@ interface PortfolioSummaryProps {
 export function PortfolioSummary({ positions }: PortfolioSummaryProps) {
   const totalValue = positions.reduce((sum, p) => sum + p.currentFLOWValue, 0)
   const totalYield = positions.reduce((sum, p) => sum + p.userYieldSoFar, 0)
-  const marketCount = positions.length
+  const poolCount = positions.length
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -24,8 +24,8 @@ export function PortfolioSummary({ positions }: PortfolioSummaryProps) {
 
       <Card className="border-2 border-black shadow-shadow">
         <CardContent className="p-6 text-center">
-          <div className="text-sm font-bold mb-1">Markets Followed</div>
-          <div className="text-2xl font-heading font-bold">{marketCount}</div>
+          <div className="text-sm font-bold mb-1">Pools Joined</div>
+          <div className="text-2xl font-heading font-bold">{poolCount}</div>
         </CardContent>
       </Card>
 

@@ -9,32 +9,32 @@ import { MarketGrid } from "@/features/market/components/MarketGrid"
 import { PortfolioSummary } from "@/features/profile/components/PortfolioSummary"
 import { PositionList } from "@/features/profile/components/PositionList"
 import { EmptyProfile } from "@/features/profile/components/EmptyProfile"
-import { useMarkets } from "@/features/market/hooks/useMarkets"
+import { usePools } from "@/features/market/hooks/useMarkets"
 import { usePositions } from "@/features/profile/hooks/usePositions"
 import { useWallet } from "@/context/WalletContext"
 import { UserPosition } from "@/features/profile/types"
 import { MarketStatus } from "@/features/market/types"
 export default function AppPage() {
-  const { markets, filter, setFilter } = useMarkets()
+  const { pools, filter, setFilter } = usePools()
   const { positions, addPosition, removePosition } = usePositions()
   const { isConnected, connect } = useWallet()
   const [activeTab, setActiveTab] = useState("profile")
-  const [marketSubTab, setMarketSubTab] = useState<MarketStatus | "All">("All")
+  const [poolSubTab, setPoolSubTab] = useState<MarketStatus | "All">("All")
 
   const handlePlaceBet = (position: UserPosition) => {
     addPosition(position)
   }
 
-  const handleClaim = (marketId: number) => {
-    removePosition(marketId)
+  const handleClaim = (poolId: number) => {
+    removePosition(poolId)
   }
 
-  const handleEarlyExit = (marketId: number) => {
-    removePosition(marketId)
+  const handleEarlyExit = (poolId: number) => {
+    removePosition(poolId)
   }
 
-  const handleNavigateToMarket = () => {
-    setActiveTab("market")
+  const handleNavigateToPool = () => {
+    setActiveTab("pool")
   }
 
   return (
@@ -42,21 +42,21 @@ export default function AppPage() {
       <TopBar activeTab={activeTab} onTabChange={setActiveTab} />
 
       <main className="container mx-auto px-4 py-8">
-        {activeTab === "market" && (
+        {activeTab === "pool" && (
           <div className="max-w-[80%] mx-auto">
             {!isConnected ? (
               <div className="border-2 border-black shadow-shadow p-12 text-center space-y-6">
-                <h2 className="text-2xl font-heading font-bold">Connect Wallet</h2>
-                <p className="text-lg">Connect your wallet to view markets</p>
+                <h2 className="text-2xl font-heading font-bold">Connect with Google</h2>
+                <p className="text-lg">Continue with Google to view pools</p>
                 <Button
                   onClick={connect}
                   className="bg-main text-main-foreground border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
                 >
-                  Connect Wallet
+                  Continue with Google
                 </Button>
               </div>
             ) : (
-              <Tabs value={marketSubTab} onValueChange={(v) => setMarketSubTab(v as MarketStatus | "All")} className="w-full">
+              <Tabs value={poolSubTab} onValueChange={(v) => setPoolSubTab(v as MarketStatus | "All")} className="w-full">
                 <TabsList className="grid w-full max-w-2xl grid-cols-4 border-2 border-black shadow-shadow mx-auto">
                   <TabsTrigger
                     value="All"
@@ -86,7 +86,7 @@ export default function AppPage() {
 
                 <TabsContent value="All" className="mt-6">
                   <MarketGrid
-                    markets={markets}
+                    pools={pools}
                     userPositions={positions}
                     onPlaceBet={handlePlaceBet}
                     onClaim={handleClaim}
@@ -95,7 +95,7 @@ export default function AppPage() {
 
                 <TabsContent value="Open" className="mt-6">
                   <MarketGrid
-                    markets={markets.filter(m => m.status === "Open")}
+                    pools={pools.filter(m => m.status === "Open")}
                     userPositions={positions}
                     onPlaceBet={handlePlaceBet}
                     onClaim={handleClaim}
@@ -104,7 +104,7 @@ export default function AppPage() {
 
                 <TabsContent value="Resolved" className="mt-6">
                   <MarketGrid
-                    markets={markets.filter(m => m.status === "Resolved")}
+                    pools={pools.filter(m => m.status === "Resolved")}
                     userPositions={positions}
                     onPlaceBet={handlePlaceBet}
                     onClaim={handleClaim}
@@ -113,7 +113,7 @@ export default function AppPage() {
 
                 <TabsContent value="Cancelled" className="mt-6">
                   <MarketGrid
-                    markets={markets.filter(m => m.status === "Cancelled")}
+                    pools={pools.filter(m => m.status === "Cancelled")}
                     userPositions={positions}
                     onPlaceBet={handlePlaceBet}
                     onClaim={handleClaim}
@@ -127,13 +127,13 @@ export default function AppPage() {
         {activeTab === "profile" && (
           <div className="max-w-[80%] mx-auto space-y-6">
             {!isConnected || positions.length === 0 ? (
-              <EmptyProfile onNavigateToMarket={handleNavigateToMarket} />
+              <EmptyProfile onNavigateToPool={handleNavigateToPool} />
             ) : (
               <>
                 <PortfolioSummary positions={positions} />
                 <PositionList
                   positions={positions}
-                  markets={markets}
+                  pools={pools}
                   onEarlyExit={handleEarlyExit}
                   onClaim={handleClaim}
                 />
