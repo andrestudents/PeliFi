@@ -4,26 +4,27 @@ import { useState } from "react"
 import { TopBar } from "@/components/layout/TopBar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
-import { MarketFilter } from "@/features/market/components/MarketFilter"
-import { MarketGrid } from "@/features/market/components/MarketGrid"
+import { PoolFilter } from "@/features/pool/components/PoolFilter"
+import { PoolGrid } from "@/features/pool/components/PoolGrid"
 import { PortfolioSummary } from "@/features/profile/components/PortfolioSummary"
 import { PositionList } from "@/features/profile/components/PositionList"
 import { EmptyProfile } from "@/features/profile/components/EmptyProfile"
 import { WalletInfoCard } from "@/features/profile/components/WalletInfoCard"
 import { SendFlowCard } from "@/features/profile/components/SendFlowCard"
-import { usePools } from "@/features/market/hooks/useMarkets"
+import { usePools } from "@/features/pool/hooks/usePools"
 import { usePositions } from "@/features/profile/hooks/usePositions"
 import { useWallet } from "@/context/WalletContext"
 import { UserPosition } from "@/features/profile/types"
-import { MarketStatus } from "@/features/market/types"
+import { PoolStatus } from "@/features/pool/types"
+
 export default function AppPage() {
   const { pools, filter, setFilter } = usePools()
   const { positions, addPosition, removePosition } = usePositions()
   const { isConnected, openLoginDialog } = useWallet()
   const [activeTab, setActiveTab] = useState("profile")
-  const [poolSubTab, setPoolSubTab] = useState<MarketStatus | "All">("All")
+  const [poolSubTab, setPoolSubTab] = useState<PoolStatus | "All">("All")
 
-  const handlePlaceBet = (position: UserPosition) => {
+  const handleJoinPool = (position: UserPosition) => {
     addPosition(position)
   }
 
@@ -58,8 +59,8 @@ export default function AppPage() {
                 </Button>
               </div>
             ) : (
-              <Tabs value={poolSubTab} onValueChange={(v) => setPoolSubTab(v as MarketStatus | "All")} className="w-full">
-                <TabsList className="grid w-full max-w-2xl grid-cols-4 border-2 border-black shadow-shadow mx-auto">
+              <Tabs value={poolSubTab} onValueChange={(v) => setPoolSubTab(v as PoolStatus | "All")} className="w-full">
+                <TabsList className="grid w-full max-w-2xl grid-cols-5 border-2 border-black shadow-shadow mx-auto">
                   <TabsTrigger
                     value="All"
                     className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
@@ -73,10 +74,16 @@ export default function AppPage() {
                     Open
                   </TabsTrigger>
                   <TabsTrigger
-                    value="Resolved"
+                    value="Active"
                     className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
                   >
-                    Resolved
+                    Active
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="Completed"
+                    className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
+                  >
+                    Completed
                   </TabsTrigger>
                   <TabsTrigger
                     value="Cancelled"
@@ -87,37 +94,46 @@ export default function AppPage() {
                 </TabsList>
 
                 <TabsContent value="All" className="mt-6">
-                  <MarketGrid
+                  <PoolGrid
                     pools={pools}
                     userPositions={positions}
-                    onPlaceBet={handlePlaceBet}
+                    onPlaceBet={handleJoinPool}
                     onClaim={handleClaim}
                   />
                 </TabsContent>
 
                 <TabsContent value="Open" className="mt-6">
-                  <MarketGrid
+                  <PoolGrid
                     pools={pools.filter(m => m.status === "Open")}
                     userPositions={positions}
-                    onPlaceBet={handlePlaceBet}
+                    onPlaceBet={handleJoinPool}
                     onClaim={handleClaim}
                   />
                 </TabsContent>
 
-                <TabsContent value="Resolved" className="mt-6">
-                  <MarketGrid
-                    pools={pools.filter(m => m.status === "Resolved")}
+                <TabsContent value="Active" className="mt-6">
+                  <PoolGrid
+                    pools={pools.filter(m => m.status === "Active")}
                     userPositions={positions}
-                    onPlaceBet={handlePlaceBet}
+                    onPlaceBet={handleJoinPool}
+                    onClaim={handleClaim}
+                  />
+                </TabsContent>
+
+                <TabsContent value="Completed" className="mt-6">
+                  <PoolGrid
+                    pools={pools.filter(m => m.status === "Completed")}
+                    userPositions={positions}
+                    onPlaceBet={handleJoinPool}
                     onClaim={handleClaim}
                   />
                 </TabsContent>
 
                 <TabsContent value="Cancelled" className="mt-6">
-                  <MarketGrid
+                  <PoolGrid
                     pools={pools.filter(m => m.status === "Cancelled")}
                     userPositions={positions}
-                    onPlaceBet={handlePlaceBet}
+                    onPlaceBet={handleJoinPool}
                     onClaim={handleClaim}
                   />
                 </TabsContent>

@@ -1,21 +1,21 @@
-import { Market } from "@/features/market/types"
+import { Pool } from "@/features/pool/types"
 import { UserPosition } from "@/features/profile/types"
-import { MarketCard } from "./MarketCard"
+import { PoolCard } from "./PoolCard"
 
-interface MarketGridProps {
-  pools: Market[]
+interface PoolGridProps {
+  pools: Pool[]
   userPositions: UserPosition[]
   onPlaceBet: (position: UserPosition) => void
   onClaim: (poolId: number) => void
 }
 
-export function MarketGrid({ pools, userPositions, onPlaceBet, onClaim }: MarketGridProps) {
+export function PoolGrid({ pools, userPositions, onPlaceBet, onClaim }: PoolGridProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {pools.map((pool) => {
-        const userPosition = userPositions.find(p => p.marketId === pool.id)
+        const userPosition = userPositions.find(p => p.poolId === pool.id)
         return (
-          <MarketCard
+          <PoolCard
             key={pool.id}
             pool={pool}
             userPosition={userPosition}

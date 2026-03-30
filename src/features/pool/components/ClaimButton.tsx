@@ -15,10 +15,9 @@ export function ClaimButton({ poolId, onClaim }: ClaimButtonProps) {
   const handleClaim = () => {
     setIsLoading(true)
 
-    // Simulate blockchain transaction
     setTimeout(() => {
       onClaim(poolId)
-      toast.success("Payout successfully claimed!")
+      toast.success("Principal & yield successfully claimed!")
       setIsLoading(false)
     }, 1500)
   }
@@ -29,7 +28,7 @@ export function ClaimButton({ poolId, onClaim }: ClaimButtonProps) {
       disabled={isLoading}
       className="w-full bg-[#0099FF] text-black border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
     >
-      {isLoading ? "Processing..." : "Claim Payout"}
+      {isLoading ? "Processing..." : "Claim Withdraw"}
     </Button>
   )
 }

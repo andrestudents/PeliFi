@@ -20,7 +20,7 @@ export function EmptyProfile({ onNavigateToPool }: EmptyProfileProps) {
 
         <p className="text-lg">
           {isConnected
-            ? "You don't have any positions yet. Start from the Pool tab!"
+            ? "You haven't joined any pools yet. Join a pool and let your FLOW work for you!"
             : "Login dengan email untuk melihat posisi kamu"}
         </p>
 

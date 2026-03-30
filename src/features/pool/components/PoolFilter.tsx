@@ -1,16 +1,16 @@
 "use client"
 
-import { MarketStatus } from "../types"
+import { PoolStatus } from "../types"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-interface MarketFilterProps {
-  filter: MarketStatus | "All"
-  onFilterChange: (filter: MarketStatus | "All") => void
+interface PoolFilterProps {
+  filter: PoolStatus | "All"
+  onFilterChange: (filter: PoolStatus | "All") => void
 }
 
-export function MarketFilter({ filter, onFilterChange }: MarketFilterProps) {
-  const filters: (MarketStatus | "All")[] = ["All", "Open", "Resolved", "Cancelled"]
+export function PoolFilter({ filter, onFilterChange }: PoolFilterProps) {
+  const filters: (PoolStatus | "All")[] = ["All", "Open", "Active", "Completed", "Cancelled"]
 
   return (
     <div className="flex flex-wrap gap-2 mb-6">

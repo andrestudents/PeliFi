@@ -2,10 +2,10 @@
 
 import { useState } from "react"
 import { MOCK_POOLS } from "@/lib/mock-data"
-import { MarketStatus } from "../types"
+import { PoolStatus } from "../types"
 
 export function usePools() {
-  const [filter, setFilter] = useState<MarketStatus | "All">("All")
+  const [filter, setFilter] = useState<PoolStatus | "All">("All")
 
   const filteredPools = filter === "All"
     ? MOCK_POOLS

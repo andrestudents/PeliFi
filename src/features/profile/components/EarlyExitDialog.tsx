@@ -16,7 +16,7 @@ interface EarlyExitDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   poolId: number
-  estimatedReturn: number
+  principal: number
   onConfirm: (poolId: number) => void
 }
 
@@ -24,7 +24,7 @@ export function EarlyExitDialog({
   open,
   onOpenChange,
   poolId,
-  estimatedReturn,
+  principal,
   onConfirm,
 }: EarlyExitDialogProps) {
   const [isLoading, setIsLoading] = useState(false)
@@ -32,10 +32,9 @@ export function EarlyExitDialog({
   const handleConfirm = () => {
     setIsLoading(true)
 
-    // Simulate blockchain transaction
     setTimeout(() => {
       onConfirm(poolId)
-      toast.success(`${estimatedReturn.toFixed(2)} FLOW returned`)
+      toast.success(`${principal.toFixed(2)} FLOW returned — full refund, no penalty`)
       setIsLoading(false)
       onOpenChange(false)
     }, 1500)
@@ -47,9 +46,16 @@ export function EarlyExitDialog({
         <DialogHeader>
           <DialogTitle className="text-xl font-heading">Early Exit</DialogTitle>
           <DialogDescription>
-            You will receive ~<FlowAmount amount={estimatedReturn} />. 50% penalty applies.
+            You will receive your full principal back — no penalty.
           </DialogDescription>
         </DialogHeader>
+
+        <div className="bg-secondary-background border-2 border-black p-3 rounded">
+          <div className="flex justify-between items-center">
+            <span className="font-bold">Return:</span>
+            <FlowAmount amount={principal} />
+          </div>
+        </div>
 
         <div className="flex gap-2">
           <Button
