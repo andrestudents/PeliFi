@@ -11,6 +11,7 @@
   "dependencies": {
     "@magic-ext/flow": "^28.5.2",
     "@magic-sdk/admin": "^2.8.2",
+    "@onflow/fcl": "^1.21.10",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-scroll-area": "^1.2.10",
     "@radix-ui/react-slot": "^1.2.4",

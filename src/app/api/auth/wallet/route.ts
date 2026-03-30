@@ -10,9 +10,10 @@ export async function POST(req: NextRequest) {
     magicAdmin.token.validate(didToken)
 
     const metadata = await magicAdmin.users.getMetadataByToken(didToken)
+    const flowAddress = (metadata as any).wallets?.flow?.publicAddress || metadata.publicAddress
 
     return NextResponse.json({
-      address: metadata.publicAddress,
+      address: flowAddress,
       email: metadata.email,
     })
 

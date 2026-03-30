@@ -55,21 +55,15 @@ export function EmailLoginDialog({ open, onOpenChange, onSuccess }: EmailLoginDi
 
       // Login selesai
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      handle.on("done", async (result: any) => {
+      handle.on("done", async () => {
         setStep("loading")
 
-        const didToken = result as string
-        const res = await fetch("/api/auth/wallet", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ didToken }),
-        })
-
-        const data = await res.json()
-        if (!res.ok) throw new Error(data.error)
+        // Ambil Flow address langsung dari extension
+        const flowAddress = await magic.flow.getPublicAddress()
+        const metadata = await magic.user.getInfo()
 
         setStep("done")
-        onSuccess(data.address, data.email)
+        onSuccess(flowAddress, metadata.email!)
         onOpenChange(false)
 
         // Reset state

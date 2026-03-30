@@ -1,6 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react"
+import { getMagic, Magic } from "@/lib/magic"
 
 interface WalletContextType {
   isConnected: boolean
@@ -30,18 +31,18 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   const checkSession = async () => {
     try {
-      const { getMagic } = await import("@/lib/magic")
-      const magic = getMagic()
+      const magic: Magic = getMagic()
       const isLoggedIn = await magic.user.isLoggedIn()
 
       if (isLoggedIn) {
         const metadata = await magic.user.getInfo()
-        const flowAddress = metadata.wallets.flow?.publicAddress
-        if (flowAddress) {
-          setAddress(truncateAddress(flowAddress))
+        const flowAddress = await magic.flow.getPublicAddress()
+        if (metadata && flowAddress) {
+          setAddress(flowAddress)
+          setEmail(metadata.email!)
+          localStorage.setItem("user", flowAddress)
+          setIsConnected(true)
         }
-        setEmail(metadata.email!)
-        setIsConnected(true)
       }
     } catch {
       // No session
@@ -51,18 +52,22 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   }
 
   const handleLoginSuccess = useCallback((rawAddress: string, userEmail: string) => {
-    setAddress(truncateAddress(rawAddress))
+    setAddress(rawAddress)
     setEmail(userEmail)
+    localStorage.setItem("user", rawAddress)
     setIsConnected(true)
     setShowLoginDialog(false)
   }, [])
 
   const disconnect = useCallback(async () => {
     try {
-      const { getMagic } = await import("@/lib/magic")
-      const magic = getMagic()
-      await magic.user.logout()
+      const magic: Magic = getMagic()
+      if (await magic.user.isLoggedIn()) {
+        await magic.user.logout()
+      }
     } catch { /* ignore */ }
+    localStorage.removeItem("user")
+    localStorage.removeItem("token")
     setIsConnected(false)
     setAddress(null)
     setEmail(null)
@@ -91,9 +96,4 @@ export function useWallet() {
     throw new Error("useWallet must be used within a WalletProvider")
   }
   return context
-}
-
-function truncateAddress(address: string): string {
-  if (!address || address.length <= 10) return address
-  return `${address.slice(0, 6)}...${address.slice(-4)}`
 }

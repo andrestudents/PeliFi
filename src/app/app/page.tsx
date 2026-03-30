@@ -9,6 +9,8 @@ import { MarketGrid } from "@/features/market/components/MarketGrid"
 import { PortfolioSummary } from "@/features/profile/components/PortfolioSummary"
 import { PositionList } from "@/features/profile/components/PositionList"
 import { EmptyProfile } from "@/features/profile/components/EmptyProfile"
+import { WalletInfoCard } from "@/features/profile/components/WalletInfoCard"
+import { SendFlowCard } from "@/features/profile/components/SendFlowCard"
 import { usePools } from "@/features/market/hooks/useMarkets"
 import { usePositions } from "@/features/profile/hooks/usePositions"
 import { useWallet } from "@/context/WalletContext"
@@ -126,6 +128,13 @@ export default function AppPage() {
 
         {activeTab === "profile" && (
           <div className="max-w-[80%] mx-auto space-y-6">
+            {isConnected && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <WalletInfoCard />
+                <SendFlowCard />
+              </div>
+            )}
+
             {!isConnected || positions.length === 0 ? (
               <EmptyProfile onNavigateToPool={handleNavigateToPool} />
             ) : (

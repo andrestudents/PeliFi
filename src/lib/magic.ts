@@ -1,24 +1,31 @@
-import { Magic } from "magic-sdk"
+import { Magic as MagicBase } from "magic-sdk"
 import { FlowExtension } from "@magic-ext/flow"
+import * as fcl from "@onflow/fcl"
+import { getNetworkUrl, getNetwork } from "./network"
 
-type MagicWithFlow = Magic & { flow: FlowExtension }
+export type Magic = MagicBase<FlowExtension[]>
 
-let magicInstance: MagicWithFlow | null = null
+let magicInstance: Magic | null = null
 
-export function getMagic(): MagicWithFlow {
+export function getMagic(): Magic {
   if (typeof window === "undefined") {
     throw new Error("Magic hanya bisa dipakai di client side")
   }
 
   if (!magicInstance) {
-    magicInstance = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY!, {
-      extensions: [
-        new FlowExtension({
-          rpcUrl: process.env.NEXT_PUBLIC_FLOW_ACCESS_NODE!,
-          network: process.env.NEXT_PUBLIC_FLOW_NETWORK as "testnet" | "mainnet",
-        }),
-      ],
-    }) as MagicWithFlow
+    magicInstance = new MagicBase(
+      process.env.NEXT_PUBLIC_MAGIC_API_KEY as string,
+      {
+        extensions: [
+          new FlowExtension({
+            rpcUrl: getNetworkUrl(),
+            network: getNetwork() as string,
+          }),
+        ],
+      }
+    )
+
+    fcl.config().put("accessNode.api", getNetworkUrl())
   }
 
   return magicInstance
