@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 export function Footer() {
   return (
@@ -27,7 +28,17 @@ export function Footer() {
           </div>
         </motion.div>
 
-        <div className="mt-8 pt-6 border-t border-background/20 text-center">
+        <div className="mt-8 pt-6 border-t border-background/20 flex flex-col items-center gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-bold text-background/60">Powered by</span>
+            <div className="flex items-center gap-3 bg-background/10 border-2 border-background/30 px-4 py-2">
+              <Image src="/flow.jpeg" alt="Flow" width={24} height={24} className="rounded-sm" />
+              <span className="font-heading font-bold text-sm text-background">FLOW</span>
+              <span className="text-background/40 font-bold">&</span>
+              <Image src="/ankr.jpeg" alt="Ankr" width={24} height={24} className="rounded-sm" />
+              <span className="font-heading font-bold text-sm text-background">Ankr Protocol</span>
+            </div>
+          </div>
           <p className="font-base text-background/60 text-sm">
             © 2026 PeliFi. No Loss. No Cheat. Just Luck.
           </p>
