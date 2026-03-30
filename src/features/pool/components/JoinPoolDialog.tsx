@@ -39,10 +39,9 @@ export function JoinPoolDialog({ pool, open, onOpenChange, onJoinPool }: JoinPoo
     setIsLoading(true)
     try {
       const txId = await sendJoinPool(pool.id, pool.depositAmount)
-      toast.loading("Transaction submitted, waiting for confirmation...", { id: txId })
+      const toastId = toast.loading("Transaction submitted, waiting for confirmation...")
 
       await waitForTransaction(txId)
-      toast.dismiss(txId)
 
       const newPosition: UserPosition = {
         poolId: pool.id,
@@ -57,7 +56,7 @@ export function JoinPoolDialog({ pool, open, onOpenChange, onJoinPool }: JoinPoo
       }
 
       onJoinPool(newPosition)
-      toast.success("Successfully joined pool!")
+      toast.success("Successfully joined pool!", { id: toastId })
       onOpenChange(false)
     } catch (err: any) {
       console.error("Join pool failed:", err)

@@ -34,13 +34,12 @@ export function EarlyExitDialog({
     setIsLoading(true)
     try {
       const txId = await sendEarlyExit(poolId)
-      toast.loading("Early exit submitted, waiting for confirmation...", { id: txId })
+      const toastId = toast.loading("Early exit submitted, waiting for confirmation...")
 
       await waitForTransaction(txId)
-      toast.dismiss(txId)
 
       onConfirm(poolId)
-      toast.success(`${principal.toFixed(2)} FLOW returned — full refund, no penalty`)
+      toast.success(`${principal.toFixed(2)} FLOW returned — full refund, no penalty`, { id: toastId })
       onOpenChange(false)
     } catch (err: any) {
       console.error("Early exit failed:", err)

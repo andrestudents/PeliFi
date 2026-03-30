@@ -17,13 +17,12 @@ export function ClaimButton({ poolId, onClaim }: ClaimButtonProps) {
     setIsLoading(true)
     try {
       const txId = await sendClaimWithdraw(poolId)
-      toast.loading("Claim submitted, waiting for confirmation...", { id: txId })
+      const toastId = toast.loading("Claim submitted, waiting for confirmation...")
 
       await waitForTransaction(txId)
-      toast.dismiss(txId)
 
       onClaim(poolId)
-      toast.success("Principal & yield successfully claimed!")
+      toast.success("Principal & yield successfully claimed!", { id: toastId })
     } catch (err: any) {
       console.error("Claim failed:", err)
       toast.error(err?.message || "Failed to claim. Please try again.")
