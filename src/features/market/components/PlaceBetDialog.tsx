@@ -44,7 +44,7 @@ export function PlaceBetDialog({ pool, open, onOpenChange, onPlaceBet }: PlaceBe
     // Simulate blockchain transaction
     setTimeout(() => {
       const newPosition: UserPosition = {
-        poolId: pool.id,
+        marketId: pool.id,
         side: selectedSide,
         principal_FLOW: amountNum,
         entryExchangeRate: pool.currentExchangeRate,
@@ -56,7 +56,7 @@ export function PlaceBetDialog({ pool, open, onOpenChange, onPlaceBet }: PlaceBe
         estimatedPayoutIfLose: estimates.lose,
         estimatedWinBonus: estimates.win - amountNum,
         estimatedEarlyExit: estimates.earlyExit,
-        poolStatus: pool.status,
+        marketStatus: pool.status,
       }
 
       onPlaceBet(newPosition)

@@ -10,7 +10,7 @@ interface TopBarProps {
 }
 
 export function TopBar({ activeTab, onTabChange }: TopBarProps) {
-  const { isConnected, address, connect, disconnect } = useWallet()
+  const { isConnected, address, email, isLoading, openLoginDialog, disconnect } = useWallet()
 
   return (
     <header className="sticky top-0 z-50 w-full border-2 border-black bg-secondary-background shadow-shadow">
@@ -44,7 +44,10 @@ export function TopBar({ activeTab, onTabChange }: TopBarProps) {
         <div className="flex items-center space-x-4">
           {isConnected ? (
             <div className="flex items-center space-x-2">
-              <span className="text-sm font-bold">{address}</span>
+              <div className="text-right hidden sm:block">
+                <div className="text-xs opacity-60">{email}</div>
+                <div className="text-sm font-bold font-mono">{address}</div>
+              </div>
               <Button
                 onClick={disconnect}
                 variant="outline"
@@ -55,10 +58,11 @@ export function TopBar({ activeTab, onTabChange }: TopBarProps) {
             </div>
           ) : (
             <Button
-              onClick={connect}
+              onClick={openLoginDialog}
+              disabled={isLoading}
               className="border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
             >
-              Continue with Google
+              {isLoading ? "..." : "Login"}
             </Button>
           )}
         </div>

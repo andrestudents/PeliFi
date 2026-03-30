@@ -17,7 +17,7 @@ import { MarketStatus } from "@/features/market/types"
 export default function AppPage() {
   const { pools, filter, setFilter } = usePools()
   const { positions, addPosition, removePosition } = usePositions()
-  const { isConnected, connect } = useWallet()
+  const { isConnected, openLoginDialog } = useWallet()
   const [activeTab, setActiveTab] = useState("profile")
   const [poolSubTab, setPoolSubTab] = useState<MarketStatus | "All">("All")
 
@@ -46,13 +46,13 @@ export default function AppPage() {
           <div className="max-w-[80%] mx-auto">
             {!isConnected ? (
               <div className="border-2 border-black shadow-shadow p-12 text-center space-y-6">
-                <h2 className="text-2xl font-heading font-bold">Connect with Google</h2>
-                <p className="text-lg">Continue with Google to view pools</p>
+                <h2 className="text-2xl font-heading font-bold">Login untuk Mulai</h2>
+                <p className="text-lg">Login dengan email untuk melihat pool</p>
                 <Button
-                  onClick={connect}
+                  onClick={openLoginDialog}
                   className="bg-main text-main-foreground border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
                 >
-                  Continue with Google
+                  Login
                 </Button>
               </div>
             ) : (
