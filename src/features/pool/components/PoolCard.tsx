@@ -48,11 +48,11 @@ export function PoolCard({ pool, userPosition, onPlaceBet, onClaim }: PoolCardPr
         <CardContent className="space-y-4 flex-1 flex flex-col">
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div className="bg-secondary-background border-2 border-black p-3 rounded">
-              <div className="font-bold text-xs mb-1">Deposit</div>
+              <div className="font-bold text-xs mb-1">Deposit Requirement </div>
               <FlowAmount amount={pool.depositAmount} />
             </div>
             <div className="bg-secondary-background border-2 border-black p-3 rounded">
-              <div className="font-bold text-xs mb-1">Duration</div>
+              <div className="font-bold text-xs mb-1">Duration Closed</div>
               <span className="font-mono font-bold">{formatDuration(pool.activeDuration)}</span>
             </div>
           </div>
@@ -62,15 +62,11 @@ export function PoolCard({ pool, userPosition, onPlaceBet, onClaim }: PoolCardPr
           <div className="bg-secondary-background border-2 border-black p-3 rounded space-y-2 text-sm">
             <div className="flex justify-between">
               <span>Winners:</span>
-              <span className="font-mono font-bold">{pool.winnerCount} dari {pool.capacity}</span>
+              <span className="font-mono font-bold">{pool.winnerCount} / {pool.capacity}</span>
             </div>
             <div className="flex justify-between">
-              <span>Total Locked:</span>
+              <span>TVL:</span>
               <FlowAmount amount={pool.totalPrincipal} />
-            </div>
-            <div className="flex justify-between">
-              <span>Est. Yield/Winner:</span>
-              <span className="font-mono font-bold text-[#05E17A]">~{yieldPerWinner} FLOW</span>
             </div>
           </div>
 

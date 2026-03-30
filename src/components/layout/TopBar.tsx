@@ -3,6 +3,7 @@
 import { useWallet } from "@/context/WalletContext"
 import { Button } from "@/components/ui/button"
 import { User, TrendingUp } from "lucide-react"
+import Image from "next/image"
 
 interface TopBarProps {
   activeTab: string
@@ -16,7 +17,7 @@ export function TopBar({ activeTab, onTabChange }: TopBarProps) {
     <header className="sticky top-0 z-50 w-full border-2 border-black bg-secondary-background shadow-shadow">
       <div className="max-w-[80%] mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-main rounded border-2 border-black"></div>
+          <Image src="/logo.png" alt="PeliFi" width={32} height={32} className="rounded border-2 border-black" />
           <h1 className="text-2xl font-heading font-bold">PeliFi</h1>
         </div>
 

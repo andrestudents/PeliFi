@@ -16,8 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PeliFi - Predict. Stake. Earn.",
-  description: "Pasang prediksi YES/NO di pasar global. Dana kamu bekerja menghasilkan yield selama event berlangsung.",
+  title: "PeliFi "
 };
 
 export default function RootLayout({

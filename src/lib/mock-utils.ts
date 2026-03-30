@@ -24,3 +24,11 @@ export function formatDuration(seconds: number): string {
 export function getCapacityPercentage(current: number, capacity: number): number {
   return Math.round((current / capacity) * 100)
 }
+
+export type DurationCategory = "Weekly" | "Monthly" | "Yearly"
+
+export function getDurationCategory(winnerCount: number): DurationCategory {
+  if (winnerCount > 10) return "Yearly"
+  if (winnerCount > 5) return "Monthly"
+  return "Weekly"
+}

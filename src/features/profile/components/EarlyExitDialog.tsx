@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { FlowAmount } from "@/components/shared/FlowAmount"
+import { sendEarlyExit, waitForTransaction } from "@/lib/flow-transactions"
 
 interface EarlyExitDialogProps {
   open: boolean
@@ -29,15 +30,24 @@ export function EarlyExitDialog({
 }: EarlyExitDialogProps) {
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     setIsLoading(true)
+    try {
+      const txId = await sendEarlyExit(poolId)
+      toast.loading("Early exit submitted, waiting for confirmation...", { id: txId })
 
-    setTimeout(() => {
+      await waitForTransaction(txId)
+      toast.dismiss(txId)
+
       onConfirm(poolId)
       toast.success(`${principal.toFixed(2)} FLOW returned — full refund, no penalty`)
-      setIsLoading(false)
       onOpenChange(false)
-    }, 1500)
+    } catch (err: any) {
+      console.error("Early exit failed:", err)
+      toast.error(err?.message || "Failed to exit pool. Please try again.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

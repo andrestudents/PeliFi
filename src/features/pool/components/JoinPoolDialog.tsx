@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { FlowAmount } from "@/components/shared/FlowAmount"
 import { formatDuration, estimateYieldIfWinner } from "@/lib/mock-utils"
+import { sendJoinPool, waitForTransaction } from "@/lib/flow-transactions"
 
 interface JoinPoolDialogProps {
   pool: Pool
@@ -34,10 +35,15 @@ export function JoinPoolDialog({ pool, open, onOpenChange, onJoinPool }: JoinPoo
     pool.adminFeePercentage
   )
 
-  const handleJoinPool = () => {
+  const handleJoinPool = async () => {
     setIsLoading(true)
+    try {
+      const txId = await sendJoinPool(pool.id, pool.depositAmount)
+      toast.loading("Transaction submitted, waiting for confirmation...", { id: txId })
 
-    setTimeout(() => {
+      await waitForTransaction(txId)
+      toast.dismiss(txId)
+
       const newPosition: UserPosition = {
         poolId: pool.id,
         principal: pool.depositAmount,
@@ -45,16 +51,20 @@ export function JoinPoolDialog({ pool, open, onOpenChange, onJoinPool }: JoinPoo
         isWinner: false,
         yieldAmount: 0,
         claimed: false,
-        poolStatus: pool.status,
+        poolStatus: "Open",
         estimatedYieldIfWinner: yieldPerWinner,
         estimatedReturn: pool.depositAmount,
       }
 
       onJoinPool(newPosition)
       toast.success("Successfully joined pool!")
-      setIsLoading(false)
       onOpenChange(false)
-    }, 1500)
+    } catch (err: any) {
+      console.error("Join pool failed:", err)
+      toast.error(err?.message || "Failed to join pool. Please try again.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -74,7 +84,7 @@ export function JoinPoolDialog({ pool, open, onOpenChange, onJoinPool }: JoinPoo
               <FlowAmount amount={pool.depositAmount} />
             </div>
             <div className="flex justify-between">
-              <span>Duration:</span>
+              <span>Duration Closed:</span>
               <span className="font-mono font-bold">{formatDuration(pool.activeDuration)}</span>
             </div>
             <div className="flex justify-between">
@@ -107,14 +117,6 @@ export function JoinPoolDialog({ pool, open, onOpenChange, onJoinPool }: JoinPoo
           {/* Lossless Message */}
           <div className="bg-secondary-background border-2 border-black p-3 rounded text-center text-sm font-bold">
             Your principal always comes back intact — zero loss guaranteed.
-          </div>
-
-          {/* Balance Display */}
-          <div className="bg-secondary-background border-2 border-black p-3 rounded">
-            <div className="flex justify-between items-center">
-              <span className="text-sm font-bold">Your Balance:</span>
-              <FlowAmount amount={10000} />
-            </div>
           </div>
 
           {/* Actions */}

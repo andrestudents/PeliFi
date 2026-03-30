@@ -66,7 +66,7 @@ export function PositionCard({ position, pool, onEarlyExit, onClaim }: PositionC
               <span className="font-mono font-bold">~{position.estimatedYieldIfWinner} FLOW</span>
             </div>
             <div className="bg-[#05E17A]/10 border border-[#05E17A] p-2 rounded text-center font-bold">
-              Principal selalu kembali utuh — zero loss
+              zero loss guaranteed
             </div>
           </div>
 
@@ -75,7 +75,7 @@ export function PositionCard({ position, pool, onEarlyExit, onClaim }: PositionC
               onClick={() => setIsEarlyExitDialogOpen(true)}
               className="w-full bg-[#FF4D50] text-white border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
             >
-              Early Exit (Free)
+              Exit
             </Button>
           )}
 

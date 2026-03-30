@@ -4,7 +4,6 @@ import { useState } from "react"
 import { TopBar } from "@/components/layout/TopBar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
-import { PoolFilter } from "@/features/pool/components/PoolFilter"
 import { PoolGrid } from "@/features/pool/components/PoolGrid"
 import { PortfolioSummary } from "@/features/profile/components/PortfolioSummary"
 import { PositionList } from "@/features/profile/components/PositionList"
@@ -15,30 +14,42 @@ import { usePools } from "@/features/pool/hooks/usePools"
 import { usePositions } from "@/features/profile/hooks/usePositions"
 import { useWallet } from "@/context/WalletContext"
 import { UserPosition } from "@/features/profile/types"
-import { PoolStatus } from "@/features/pool/types"
+import { DurationCategory, getDurationCategory } from "@/lib/mock-utils"
+import { sendJoinPool, waitForTransaction } from "@/lib/flow-transactions"
+import { fetchUserPositions } from "@/lib/flow-scripts"
+import { toast } from "sonner"
 
 export default function AppPage() {
-  const { pools, filter, setFilter } = usePools()
-  const { positions, addPosition, removePosition } = usePositions()
-  const { isConnected, openLoginDialog } = useWallet()
+  const { pools, isLoading: poolsLoading, refresh: refreshPools } = usePools()
+  const { positions, isLoading: positionsLoading, removePosition, refresh: refreshPositions } = usePositions()
+  const { isConnected, address, openLoginDialog } = useWallet()
   const [activeTab, setActiveTab] = useState("profile")
-  const [poolSubTab, setPoolSubTab] = useState<PoolStatus | "All">("All")
+  const [poolSubTab, setPoolSubTab] = useState<DurationCategory | "All">("All")
 
   const handleJoinPool = (position: UserPosition) => {
-    addPosition(position)
+    // Position is already created on-chain, just refresh data
+    refreshPositions()
+    refreshPools()
   }
 
   const handleClaim = (poolId: number) => {
     removePosition(poolId)
+    refreshPools()
   }
 
   const handleEarlyExit = (poolId: number) => {
     removePosition(poolId)
+    refreshPools()
   }
 
   const handleNavigateToPool = () => {
     setActiveTab("pool")
   }
+
+  const durationFiltered = (category: DurationCategory | "All") =>
+    category === "All"
+      ? pools
+      : pools.filter(p => getDurationCategory(p.winnerCount) === category)
 
   return (
     <div className="min-h-screen bg-background">
@@ -59,8 +70,8 @@ export default function AppPage() {
                 </Button>
               </div>
             ) : (
-              <Tabs value={poolSubTab} onValueChange={(v) => setPoolSubTab(v as PoolStatus | "All")} className="w-full">
-                <TabsList className="grid w-full max-w-2xl grid-cols-5 border-2 border-black shadow-shadow mx-auto">
+              <Tabs value={poolSubTab} onValueChange={(v) => setPoolSubTab(v as DurationCategory | "All")} className="w-full">
+                <TabsList className="grid w-full max-w-2xl grid-cols-4 border-2 border-black shadow-shadow mx-auto">
                   <TabsTrigger
                     value="All"
                     className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
@@ -68,28 +79,22 @@ export default function AppPage() {
                     All
                   </TabsTrigger>
                   <TabsTrigger
-                    value="Open"
+                    value="Weekly"
                     className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
                   >
-                    Open
+                    Weekly
                   </TabsTrigger>
                   <TabsTrigger
-                    value="Active"
+                    value="Monthly"
                     className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
                   >
-                    Active
+                    Monthly
                   </TabsTrigger>
                   <TabsTrigger
-                    value="Completed"
+                    value="Yearly"
                     className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
                   >
-                    Completed
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="Cancelled"
-                    className="data-[state=active]:bg-main data-[state=active]:text-main-foreground"
-                  >
-                    Cancelled
+                    Yearly
                   </TabsTrigger>
                 </TabsList>
 
@@ -102,36 +107,27 @@ export default function AppPage() {
                   />
                 </TabsContent>
 
-                <TabsContent value="Open" className="mt-6">
+                <TabsContent value="Weekly" className="mt-6">
                   <PoolGrid
-                    pools={pools.filter(m => m.status === "Open")}
+                    pools={durationFiltered("Weekly")}
                     userPositions={positions}
                     onPlaceBet={handleJoinPool}
                     onClaim={handleClaim}
                   />
                 </TabsContent>
 
-                <TabsContent value="Active" className="mt-6">
+                <TabsContent value="Monthly" className="mt-6">
                   <PoolGrid
-                    pools={pools.filter(m => m.status === "Active")}
+                    pools={durationFiltered("Monthly")}
                     userPositions={positions}
                     onPlaceBet={handleJoinPool}
                     onClaim={handleClaim}
                   />
                 </TabsContent>
 
-                <TabsContent value="Completed" className="mt-6">
+                <TabsContent value="Yearly" className="mt-6">
                   <PoolGrid
-                    pools={pools.filter(m => m.status === "Completed")}
-                    userPositions={positions}
-                    onPlaceBet={handleJoinPool}
-                    onClaim={handleClaim}
-                  />
-                </TabsContent>
-
-                <TabsContent value="Cancelled" className="mt-6">
-                  <PoolGrid
-                    pools={pools.filter(m => m.status === "Cancelled")}
+                    pools={durationFiltered("Yearly")}
                     userPositions={positions}
                     onPlaceBet={handleJoinPool}
                     onClaim={handleClaim}
@@ -156,6 +152,7 @@ export default function AppPage() {
             ) : (
               <>
                 <PortfolioSummary positions={positions} />
+                <h1> My Positions </h1>
                 <PositionList
                   positions={positions}
                   pools={pools}

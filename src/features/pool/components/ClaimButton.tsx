@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
+import { sendClaimWithdraw, waitForTransaction } from "@/lib/flow-transactions"
 
 interface ClaimButtonProps {
   poolId: number
@@ -12,14 +13,23 @@ interface ClaimButtonProps {
 export function ClaimButton({ poolId, onClaim }: ClaimButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleClaim = () => {
+  const handleClaim = async () => {
     setIsLoading(true)
+    try {
+      const txId = await sendClaimWithdraw(poolId)
+      toast.loading("Claim submitted, waiting for confirmation...", { id: txId })
 
-    setTimeout(() => {
+      await waitForTransaction(txId)
+      toast.dismiss(txId)
+
       onClaim(poolId)
       toast.success("Principal & yield successfully claimed!")
+    } catch (err: any) {
+      console.error("Claim failed:", err)
+      toast.error(err?.message || "Failed to claim. Please try again.")
+    } finally {
       setIsLoading(false)
-    }, 1500)
+    }
   }
 
   return (

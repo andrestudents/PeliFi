@@ -17,14 +17,14 @@ export function PortfolioSummary({ positions }: PortfolioSummaryProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <Card className="border-2 border-black shadow-shadow">
+      {/* <Card className="border-2 border-black shadow-shadow">
         <CardContent className="p-6 text-center">
           <div className="text-sm font-bold mb-1">Total Locked</div>
           <div className="text-2xl font-heading font-bold">
             <FlowAmount amount={totalLocked} />
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
 
       <Card className="border-2 border-black shadow-shadow">
         <CardContent className="p-6 text-center">
@@ -33,14 +33,14 @@ export function PortfolioSummary({ positions }: PortfolioSummaryProps) {
         </CardContent>
       </Card>
 
-      <Card className="border-2 border-black shadow-shadow">
+      {/* <Card className="border-2 border-black shadow-shadow">
         <CardContent className="p-6 text-center">
           <div className="text-sm font-bold mb-1">Yield Won</div>
           <div className="text-2xl font-heading font-bold text-[#05E17A]">
             <FlowAmount amount={yieldWon} />
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   )
 }

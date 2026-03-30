@@ -26,6 +26,11 @@ export function getMagic(): Magic {
     )
 
     fcl.config().put("accessNode.api", getNetworkUrl())
+
+    const contractAddr = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string
+    fcl.config()
+      .put("0xPeliFi", contractAddr)
+      .put("0xPeliFiTypes", contractAddr)
   }
 
   return magicInstance
