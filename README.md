@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lossless (PeliFi)
+
+A **Lossless Lottery Pool** decentralized application built on the **Flow blockchain**. Users deposit into lottery pools where their principal is protected — yields are generated from deposits, and winners are selected at random.
+
+## Tech Stack
+
+- **Next.js 16** (App Router) + React 19 + TypeScript
+- **Tailwind CSS 4** + Shadcn UI + Framer Motion
+- **Flow Blockchain** (testnet) via FCL
+- **Magic SDK** — walletless email OTP authentication
+- Neobrutalism design system
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- npm or pnpm
+
+### Install & Run
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file:
 
-## Learn More
+```env
+NEXT_PUBLIC_MAGIC_API_KEY=your_magic_api_key
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xb959b143faff5775
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── page.tsx            # Landing page
+│   └── app/page.tsx        # Dashboard (Profile/Pool tabs)
+├── components/
+│   ├── landing/            # Landing page sections
+│   ├── layout/             # Layout components (TopBar, etc.)
+│   ├── shared/             # Shared UI (FlowAmount, CapacityBar, etc.)
+│   └── ui/                 # Shadcn UI primitives
+├── context/
+│   └── WalletContext.tsx    # Wallet & auth state (Magic SDK + FCL)
+├── features/
+│   ├── pool/               # Pool list, JoinPool, Claim
+│   └── profile/            # User positions, portfolio, early exit
+├── lib/                    # Flow config, scripts, transactions, Magic SDK
+└── types/                  # TypeScript type definitions
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Key Features
 
-## Deploy on Vercel
+- **Lottery Pools** — Weekly, Monthly, and Yearly pools with different capacities
+- **Principal Protection** — deposits are returned in full
+- **Walletless Auth** — sign in with email via Magic SDK
+- **Onchain Transactions** — join pools, claim winnings, early exit — all on Flow testnet
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Private
