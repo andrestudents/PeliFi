@@ -59,12 +59,12 @@ export function PositionCard({ position, pool, onEarlyExit, onClaim }: PositionC
             <div className="font-bold mb-2">Pool Info:</div>
             <div className="flex justify-between">
               <span>Winners:</span>
-              <span className="font-mono font-bold">{pool.winnerCount} dari {pool.capacity}</span>
+              <span className="font-mono font-bold">{pool.winnerCount} from {pool.capacity}</span>
             </div>
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
               <span>Est. Yield if Winner:</span>
               <span className="font-mono font-bold">~{position.estimatedYieldIfWinner} FLOW</span>
-            </div>
+            </div> */}
             <div className="bg-[#05E17A]/10 border border-[#05E17A] p-2 rounded text-center font-bold">
               zero loss guaranteed
             </div>

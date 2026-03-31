@@ -7,21 +7,24 @@ interface CapacityBarProps {
 
 export function CapacityBar({ current, capacity }: CapacityBarProps) {
   const percentage = Math.round((current / capacity) * 100)
+  const isEmpty = current === 0
 
   return (
     <div className="w-full">
       <div className="flex h-6 border-2 border-black shadow-shadow overflow-hidden">
-        <div
-          className={cn(
-            "flex items-center justify-center text-xs font-bold transition-all",
-            percentage === 100
-              ? "bg-[#0099FF] text-black"
-              : "bg-[#05E17A] text-black"
-          )}
-          style={{ width: `${Math.max(percentage, 8)}%` }}
-        >
-          {percentage > 15 && `${percentage}%`}
-        </div>
+        {!isEmpty && (
+          <div
+            className={cn(
+              "flex items-center justify-center text-xs font-bold transition-all",
+              percentage === 100
+                ? "bg-[#0099FF] text-black"
+                : "bg-[#05E17A] text-black"
+            )}
+            style={{ width: `${Math.max(percentage, 8)}%` }}
+          >
+            {percentage > 15 && `${percentage}%`}
+          </div>
+        )}
         {percentage < 100 && (
           <div className="flex-1 bg-secondary-background" />
         )}

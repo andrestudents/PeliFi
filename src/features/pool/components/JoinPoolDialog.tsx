@@ -103,14 +103,12 @@ export function JoinPoolDialog({ pool, open, onOpenChange, onJoinPool }: JoinPoo
           {/* Yield Estimate */}
           <div className="bg-[#05E17A]/10 border-2 border-[#05E17A] p-4 rounded space-y-2 text-sm">
             <div className="font-bold mb-2">Estimated Yield if Winner:</div>
-            <div className="flex justify-between text-lg">
-              <span>Yield:</span>
-              <span className="font-mono font-bold text-[#05E17A]">~{yieldPerWinner} FLOW</span>
-            </div>
-            <div className="flex justify-between">
+            <span className="font-mono font-bold text-[#05E17A]">COMING SOON</span>
+
+            {/* <div className="flex justify-between">
               <span>Principal Return:</span>
               <FlowAmount amount={pool.depositAmount} />
-            </div>
+            </div> */}
           </div>
 
           {/* Lossless Message */}

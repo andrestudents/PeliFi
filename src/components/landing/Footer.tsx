@@ -6,14 +6,17 @@ import Image from "next/image"
 export function Footer() {
   return (
     <footer className="bg-foreground border-t-4 border-foreground">
-      <div className="container mx-auto px-4 py-12">
+      <div className="w-[80%] mx-auto py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="flex flex-col md:flex-row items-center justify-between gap-6"
         >
-          <span className="font-heading text-3xl font-bold text-background">PeliFi</span>
+          <span className="flex items-center gap-2">
+            <Image src="/logo.png" alt="PeliFi" width={32} height={32} className="rounded" />
+            <span className="font-heading text-3xl font-bold text-background">PeliFi</span>
+          </span>
 
           <div className="flex gap-6 font-base text-background">
             <a href="#how-it-works" className="hover:text-chart-3 transition-colors font-semibold">How it Works</a>

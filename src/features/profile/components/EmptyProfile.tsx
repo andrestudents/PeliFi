@@ -15,13 +15,13 @@ export function EmptyProfile({ onNavigateToPool }: EmptyProfileProps) {
     <Card className="border-2 border-black shadow-shadow">
       <CardContent className="p-12 text-center space-y-6">
         <h2 className="text-2xl font-heading font-bold">
-          {isConnected ? "No Positions" : "Login untuk Mulai"}
+          {isConnected ? "No Positions" : "Login to start"}
         </h2>
 
         <p className="text-lg">
           {isConnected
             ? "You haven't joined any pools yet. Join a pool and let your FLOW work for you!"
-            : "Login dengan email untuk melihat posisi kamu"}
+            : "Login with email to see your positions"}
         </p>
 
         <Button

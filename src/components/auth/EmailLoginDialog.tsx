@@ -31,7 +31,7 @@ export function EmailLoginDialog({ open, onOpenChange, onSuccess }: EmailLoginDi
 
   const handleSendOTP = async () => {
     if (!email || !email.includes("@")) {
-      setError("Masukkan email yang valid")
+      setError("Enter a valid email address")
       return
     }
 
@@ -84,7 +84,7 @@ export function EmailLoginDialog({ open, onOpenChange, onSuccess }: EmailLoginDi
         // Handle selesai (sukses atau gagal)
       })
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message || "Terjadi kesalahan")
       setStep("email")
@@ -121,15 +121,15 @@ export function EmailLoginDialog({ open, onOpenChange, onSuccess }: EmailLoginDi
       <DialogContent className="border-2 border-black shadow-shadow max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-heading font-bold">
-            {step === "email" && "Login ke PeliFi"}
-            {step === "otp" && "Cek Email Kamu"}
-            {step === "loading" && "Memproses..."}
-            {step === "done" && "Berhasil!"}
+            {step === "email" && "Login to PeliFi"}
+            {step === "otp" && "Check your email"}
+            {step === "loading" && "Processing..."}
+            {step === "done" && "Done!"}
           </DialogTitle>
           <DialogDescription>
-            {step === "email" && "Masukkan email untuk login. Wallet dibuat otomatis."}
-            {step === "otp" && `Kode OTP dikirim ke ${email}`}
-            {step === "loading" && "Mohon tunggu sebentar..."}
+            {step === "email" && "Enter your email to login. Wallet will be created automatically."}
+            {step === "otp" && `OTP code sent to ${email}`}
+            {step === "loading" && "wait a moment..."}
           </DialogDescription>
         </DialogHeader>
 
@@ -152,7 +152,7 @@ export function EmailLoginDialog({ open, onOpenChange, onSuccess }: EmailLoginDi
                 onClick={handleSendOTP}
                 className="w-full bg-main text-main-foreground border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
               >
-                Kirim Kode OTP
+                Send OTP Code
               </Button>
             </>
           )}
@@ -161,7 +161,7 @@ export function EmailLoginDialog({ open, onOpenChange, onSuccess }: EmailLoginDi
           {step === "otp" && (
             <>
               <p className="text-sm">
-                Buka email kamu dan masukkan 6 digit kode yang dikirim Magic.
+                Open your email and enter the 6 digit code sent from PeliFi.
               </p>
               <Input
                 type="text"
@@ -180,14 +180,14 @@ export function EmailLoginDialog({ open, onOpenChange, onSuccess }: EmailLoginDi
                   variant="outline"
                   className="flex-1 border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
                 >
-                  Kembali
+                  Back
                 </Button>
                 <Button
                   onClick={handleSubmitOTP}
                   disabled={otp.length < 6}
                   className="flex-1 bg-main text-main-foreground border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
                 >
-                  Verifikasi
+                  Verification
                 </Button>
               </div>
             </>
@@ -197,7 +197,7 @@ export function EmailLoginDialog({ open, onOpenChange, onSuccess }: EmailLoginDi
           {step === "loading" && (
             <div className="text-center py-6">
               <div className="animate-spin w-8 h-8 border-4 border-black border-t-transparent mx-auto mb-3" />
-              <p className="text-sm font-bold">Menyiapkan wallet kamu...</p>
+              <p className="text-sm font-bold">Preparing your address...</p>
             </div>
           )}
 

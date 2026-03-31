@@ -60,8 +60,8 @@ export default function AppPage() {
           <div className="max-w-[80%] mx-auto">
             {!isConnected ? (
               <div className="border-2 border-black shadow-shadow p-12 text-center space-y-6">
-                <h2 className="text-2xl font-heading font-bold">Login untuk Mulai</h2>
-                <p className="text-lg">Login dengan email untuk melihat pool</p>
+                <h2 className="text-2xl font-heading font-bold">Login to Start</h2>
+                <p className="text-lg">Login with email to see Pool</p>
                 <Button
                   onClick={openLoginDialog}
                   className="bg-main text-main-foreground border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
