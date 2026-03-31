@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { WalletProvider } from "@/context/WalletContext";
 import { Toaster } from "@/components/ui/sonner";
+import { LoginDialogWrapper } from "@/components/auth/LoginDialogWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,8 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PeliFi - Predict. Stake. Earn.",
-  description: "Pasang prediksi YES/NO di pasar global. Dana kamu bekerja menghasilkan yield selama event berlangsung.",
+  title: "PeliFi "
 };
 
 export default function RootLayout({
@@ -31,6 +31,7 @@ export default function RootLayout({
       >
         <WalletProvider>
           {children}
+          <LoginDialogWrapper />
           <Toaster />
         </WalletProvider>
       </body>

@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
+import { sendClaimWithdraw, waitForTransaction } from "@/lib/flow-transactions"
 
 interface ClaimButtonProps {
   poolId: number
@@ -12,15 +13,22 @@ interface ClaimButtonProps {
 export function ClaimButton({ poolId, onClaim }: ClaimButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleClaim = () => {
+  const handleClaim = async () => {
     setIsLoading(true)
+    try {
+      const txId = await sendClaimWithdraw(poolId)
+      const toastId = toast.loading("Claim submitted, waiting for confirmation...")
 
-    // Simulate blockchain transaction
-    setTimeout(() => {
+      await waitForTransaction(txId)
+
       onClaim(poolId)
-      toast.success("Payout successfully claimed!")
+      toast.success("Principal & yield successfully claimed!", { id: toastId })
+    } catch (err: any) {
+      console.error("Claim failed:", err)
+      toast.error(err?.message || "Failed to claim. Please try again.")
+    } finally {
       setIsLoading(false)
-    }, 1500)
+    }
   }
 
   return (
@@ -29,7 +37,7 @@ export function ClaimButton({ poolId, onClaim }: ClaimButtonProps) {
       disabled={isLoading}
       className="w-full bg-[#0099FF] text-black border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
     >
-      {isLoading ? "Processing..." : "Claim Payout"}
+      {isLoading ? "Processing..." : "Claim Withdraw"}
     </Button>
   )
 }

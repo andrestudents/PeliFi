@@ -3,6 +3,7 @@
 import { useWallet } from "@/context/WalletContext"
 import { Button } from "@/components/ui/button"
 import { User, TrendingUp } from "lucide-react"
+import Image from "next/image"
 
 interface TopBarProps {
   activeTab: string
@@ -10,13 +11,13 @@ interface TopBarProps {
 }
 
 export function TopBar({ activeTab, onTabChange }: TopBarProps) {
-  const { isConnected, address, connect, disconnect } = useWallet()
+  const { isConnected, address, email, isLoading, openLoginDialog, disconnect } = useWallet()
 
   return (
     <header className="sticky top-0 z-50 w-full border-2 border-black bg-secondary-background shadow-shadow">
       <div className="max-w-[80%] mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-main rounded border-2 border-black"></div>
+          <Image src="/logo.png" alt="PeliFi" width={32} height={32} className="rounded border-2 border-black" />
           <h1 className="text-2xl font-heading font-bold">PeliFi</h1>
         </div>
 
@@ -44,7 +45,10 @@ export function TopBar({ activeTab, onTabChange }: TopBarProps) {
         <div className="flex items-center space-x-4">
           {isConnected ? (
             <div className="flex items-center space-x-2">
-              <span className="text-sm font-bold">{address}</span>
+              <div className="text-right hidden sm:block">
+                <div className="text-xs opacity-60">{email}</div>
+                <div className="text-sm font-bold font-mono">{address}</div>
+              </div>
               <Button
                 onClick={disconnect}
                 variant="outline"
@@ -55,10 +59,11 @@ export function TopBar({ activeTab, onTabChange }: TopBarProps) {
             </div>
           ) : (
             <Button
-              onClick={connect}
+              onClick={openLoginDialog}
+              disabled={isLoading}
               className="border-2 border-black shadow-shadow hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all"
             >
-              Continue with Google
+              {isLoading ? "..." : "Login"}
             </Button>
           )}
         </div>

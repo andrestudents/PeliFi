@@ -7,20 +7,24 @@ interface PortfolioSummaryProps {
 }
 
 export function PortfolioSummary({ positions }: PortfolioSummaryProps) {
-  const totalValue = positions.reduce((sum, p) => sum + p.currentFLOWValue, 0)
-  const totalYield = positions.reduce((sum, p) => sum + p.userYieldSoFar, 0)
+  const totalLocked = positions
+    .filter(p => p.poolStatus === "Active")
+    .reduce((sum, p) => sum + p.principal, 0)
   const poolCount = positions.length
+  const yieldWon = positions
+    .filter(p => p.isWinner)
+    .reduce((sum, p) => sum + p.yieldAmount, 0)
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <Card className="border-2 border-black shadow-shadow">
+      {/* <Card className="border-2 border-black shadow-shadow">
         <CardContent className="p-6 text-center">
-          <div className="text-sm font-bold mb-1">Total Value</div>
+          <div className="text-sm font-bold mb-1">Total Locked</div>
           <div className="text-2xl font-heading font-bold">
-            <FlowAmount amount={totalValue} />
+            <FlowAmount amount={totalLocked} />
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
 
       <Card className="border-2 border-black shadow-shadow">
         <CardContent className="p-6 text-center">
@@ -29,14 +33,14 @@ export function PortfolioSummary({ positions }: PortfolioSummaryProps) {
         </CardContent>
       </Card>
 
-      <Card className="border-2 border-black shadow-shadow">
+      {/* <Card className="border-2 border-black shadow-shadow">
         <CardContent className="p-6 text-center">
-          <div className="text-sm font-bold mb-1">Total Yield</div>
+          <div className="text-sm font-bold mb-1">Yield Won</div>
           <div className="text-2xl font-heading font-bold text-[#05E17A]">
-            <FlowAmount amount={totalYield} />
+            <FlowAmount amount={yieldWon} />
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   )
 }

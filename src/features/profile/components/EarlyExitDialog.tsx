@@ -11,12 +11,13 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { FlowAmount } from "@/components/shared/FlowAmount"
+import { sendEarlyExit, waitForTransaction } from "@/lib/flow-transactions"
 
 interface EarlyExitDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   poolId: number
-  estimatedReturn: number
+  principal: number
   onConfirm: (poolId: number) => void
 }
 
@@ -24,21 +25,28 @@ export function EarlyExitDialog({
   open,
   onOpenChange,
   poolId,
-  estimatedReturn,
+  principal,
   onConfirm,
 }: EarlyExitDialogProps) {
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     setIsLoading(true)
+    try {
+      const txId = await sendEarlyExit(poolId)
+      const toastId = toast.loading("Early exit submitted, waiting for confirmation...")
 
-    // Simulate blockchain transaction
-    setTimeout(() => {
+      await waitForTransaction(txId)
+
       onConfirm(poolId)
-      toast.success(`${estimatedReturn.toFixed(2)} FLOW returned`)
-      setIsLoading(false)
+      toast.success(`${principal.toFixed(2)} FLOW returned — full refund, no penalty`, { id: toastId })
       onOpenChange(false)
-    }, 1500)
+    } catch (err: any) {
+      console.error("Early exit failed:", err)
+      toast.error(err?.message || "Failed to exit pool. Please try again.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -47,9 +55,16 @@ export function EarlyExitDialog({
         <DialogHeader>
           <DialogTitle className="text-xl font-heading">Early Exit</DialogTitle>
           <DialogDescription>
-            You will receive ~<FlowAmount amount={estimatedReturn} />. 50% penalty applies.
+            You will receive your full principal back — no penalty.
           </DialogDescription>
         </DialogHeader>
+
+        <div className="bg-secondary-background border-2 border-black p-3 rounded">
+          <div className="flex justify-between items-center">
+            <span className="font-bold">Return:</span>
+            <FlowAmount amount={principal} />
+          </div>
+        </div>
 
         <div className="flex gap-2">
           <Button

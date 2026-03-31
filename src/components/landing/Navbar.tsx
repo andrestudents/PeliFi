@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 const navItems = ["How it Works", "Features"]
 
@@ -22,10 +23,11 @@ export function Navbar() {
     >
       <div className="w-[80%] mx-auto flex items-center justify-between h-16">
         <motion.span
-          className="font-heading text-2xl font-bold"
+          className="flex items-center gap-2"
           whileHover={{ scale: 1.05 }}
         >
-          PeliFi
+          <Image src="/logo.png" alt="PeliFi" width={32} height={32} className="rounded" />
+          <span className="font-heading text-2xl font-bold">PeliFi</span>
         </motion.span>
 
         <div className="flex gap-3">

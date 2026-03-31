@@ -1,37 +1,34 @@
-import { Market } from "@/features/market/types"
-import { Side } from "@/features/profile/types"
-
-export interface PayoutEstimate {
-  win: number
-  lose: number
-  earlyExit: number
+export function estimateYieldIfWinner(
+  depositAmount: number,
+  totalPrincipal: number,
+  winnerCount: number,
+  durationSeconds: number,
+  yieldAPR: number = 0.07,
+  adminFee: number = 0.01
+): number {
+  const secondsPerYear = 31536000
+  const years = durationSeconds / secondsPerYear
+  const totalYield = totalPrincipal * yieldAPR * years
+  const yieldAfterFee = totalYield * (1 - adminFee)
+  return Math.round((yieldAfterFee / winnerCount) * 100) / 100
 }
 
-export function estimatePayout(
-  amount: number,
-  side: Side,
-  pool: Market,
-  currentRate: number
-): PayoutEstimate {
-  // Calculate winner yield (yield from loser's side)
-  const totalWinnerPrincipal = side === "YES" ? pool.totalYesPrincipal : pool.totalNoPrincipal
-  const totalLoserPrincipal = side === "YES" ? pool.totalNoPrincipal : pool.totalYesPrincipal
+export function formatDuration(seconds: number): string {
+  if (seconds >= 31536000) return `${Math.round(seconds / 31536000)} Year(s)`
+  if (seconds >= 2592000) return `${Math.round(seconds / 2592000)} Month(s)`
+  if (seconds >= 604800) return `${Math.round(seconds / 604800)} Week(s)`
+  if (seconds >= 86400) return `${Math.round(seconds / 86400)} Day(s)`
+  return `${Math.round(seconds / 3600)} Hour(s)`
+}
 
-  // Total yield in the pool = (TVL * currentRate) - TVL
-  const totalYield = pool.totalTVL * currentRate - pool.totalTVL
+export function getCapacityPercentage(current: number, capacity: number): number {
+  return Math.round((current / capacity) * 100)
+}
 
-  // Winner gets: their principal + their yield share + loser's yield share
-  // Their yield share = (their principal / winner principal) * total yield
-  // Loser yield share = (their principal / winner principal) * loser principal * yield rate
-  const loserYield = totalLoserPrincipal * (currentRate - 1)
+export type DurationCategory = "Weekly" | "Monthly" | "Yearly"
 
-  const estimatedWin = amount * currentRate + (loserYield * amount / totalWinnerPrincipal)
-  const estimatedLose = amount // Get principal back
-  const estimatedEarlyExit = amount * 0.5 // 50% penalty
-
-  return {
-    win: Math.round(estimatedWin * 100) / 100,
-    lose: Math.round(estimatedLose * 100) / 100,
-    earlyExit: Math.round(estimatedEarlyExit * 100) / 100,
-  }
+export function getDurationCategory(winnerCount: number): DurationCategory {
+  if (winnerCount > 10) return "Yearly"
+  if (winnerCount > 5) return "Monthly"
+  return "Weekly"
 }
