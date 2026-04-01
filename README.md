@@ -298,5 +298,4 @@ MIN_YIELD_THRESHOLD  = 0.01   // 0.01 FLOW minimum payout per winner
 - Mobile-optimized UI
 
 ## License
-
-Private
+MIT
